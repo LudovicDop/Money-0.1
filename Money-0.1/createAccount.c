@@ -31,17 +31,28 @@ void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *na
         FILE *fileAccount = NULL; //Creation du fichier vide
         char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
         char *s = concat(chemin, nameAccount); //Concaténation du chemin puis du nom du fichier en question
-        fileAccount = fopen(s, "a"); //Creation du fichier s'il n'existe pas
+        fileAccount = fopen(s, "r"); //On lit le fichier pour voir s'il existe ou non
         fclose(fileAccount);
         printf("        ***Creation of the new account in progress...***\n");
-        if(fileAccount != NULL)
+        if(fileAccount == NULL) //Si le fichier n'existe pas
         {
-            printf("                    **Well, welcome %s !**\n\n",name);
-            
-            fileAccount = fopen(s, "w");
-            fprintf(fileAccount, valeurDuCompte);
+            fileAccount = fopen(s, "a"); //Creation du fichier s'il n'existe pas
             fclose(fileAccount);
-            
+            if(fileAccount)
+            {
+                printf("                    **Well, welcome %s !**\n\n",name);
+                
+                fileAccount = fopen(s, "w");
+                fprintf(fileAccount, valeurDuCompte);
+                fclose(fileAccount);
+            }
+            else{
+                exit(EXIT_FAILURE);
+            }
+        }
+        else
+        {
+            printf("          *** Error this account already exists! ***\n");
         }
         
     }
