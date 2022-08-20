@@ -69,7 +69,8 @@ void reading(char *nameAccount,char *usr)
     char *s = concat(chemin, name);
     
     fileAccount = fopen(s, "r");
-    fgets(tmp, 100, fileAccount);
+    while(fgets(tmp, 100, fileAccount) != NULL);
+    
     printf("            *** Loading bank account *** \n\n");
     printf("             %s do you have => %s €\n\n",usr,tmp);
     
@@ -88,18 +89,27 @@ void addAmount(char *nameAccount,char *usr,int amountAdd)
     char *s = concat(chemin, name);
     
     fileAccount = fopen(s, "r");
-    fgets(tmp, 100, fileAccount);
+    while(fgets(tmp, 100, fileAccount) != NULL);
     printf("            *** Loading bank account *** \n\n");
     printf("             %s do you have => %s €\n\n",usr,tmp);
     fclose(fileAccount);
-    fileAccount = fopen(s, "w");
+    fileAccount = fopen(s, "a");
     int x;
     sscanf(tmp, "%d",&x);
     int result = x + amountAdd;
     char c[100];
+    char *buffer = NULL;
     sprintf(c, "%d",result);
-    fileAccount = fopen(s, "w+");
-    fprintf(fileAccount, c);
+    char *cNewWithReturn = concat("\n", c);
+    //fileAccount = fopen(s, "w");
+    buffer = strchr(tmp, 'E0F');
+    if(buffer != NULL)
+    {
+        printf("facile %s",buffer);
+    }else{
+        printf("nope");
+    }
+    fprintf(fileAccount, cNewWithReturn); //HERE
     printf("         *** %s do you have now %d ***\n\n",usr,result);
     fclose(fileAccount);
     
