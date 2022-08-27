@@ -69,11 +69,13 @@ void reading(char *nameAccount,char *usr)
     char *s = concat(chemin, name);
     
     fileAccount = fopen(s, "r");
+    
+    char *comment;
     while(fgets(tmp, 100, fileAccount) != NULL);
     
+    strtok_r(tmp, " ", &comment);
     printf("            *** Loading bank account *** \n\n");
     printf("             %s do you have => %s €\n\n",usr,tmp);
-    
     
     
 }
@@ -88,11 +90,8 @@ void addAmount(char *nameAccount,char *usr,int amountAdd)
     char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
     char *s = concat(chemin, name);
     
-    fileAccount = fopen(s, "r");
-    while(fgets(tmp, 100, fileAccount) != NULL);
-    printf("            *** Loading bank account *** \n\n");
-    printf("             %s do you have => %s €\n\n",usr,tmp);
-    fclose(fileAccount);
+    reading(nameAccount, usr);
+    
     fileAccount = fopen(s, "a");
     int x;
     sscanf(tmp, "%d",&x);
@@ -102,13 +101,8 @@ void addAmount(char *nameAccount,char *usr,int amountAdd)
     sprintf(c, "%d",result);
     char *cNewWithReturn = concat("\n", c);
     //fileAccount = fopen(s, "w");
-    buffer = strchr(tmp, 'E0F');
-    if(buffer != NULL)
-    {
-        printf("facile %s",buffer);
-    }else{
-        printf("nope");
-    }
+
+    
     fprintf(fileAccount, cNewWithReturn); //HERE
     printf("         *** %s do you have now %d ***\n\n",usr,result);
     fclose(fileAccount);
