@@ -80,7 +80,7 @@ void reading(char *nameAccount,char *usr)
     
 }
 
-void addAmount(char *nameAccount,char *usr,int amountAdd)
+void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
 {
     char *name;
     char tmp[100];
@@ -104,6 +104,7 @@ void addAmount(char *nameAccount,char *usr,int amountAdd)
 
     
     fprintf(fileAccount, cNewWithReturn); //HERE
+    fprintf(fileAccount, " =>  %d + %d ( Reason : %s )",x,amountAdd,why);
     printf("         *** %s do you have now %d ***\n\n",usr,result);
     fclose(fileAccount);
     

@@ -13,6 +13,6 @@
 void initialisationNouveauCompte(char *nomDuCompte,char *name,char *amount);
 char* concat(const char *s1, const char *s2);
 void reading(char *nameAccount,char *usr);
-void addAmount(char *nameAccount,char *usr,int amountAdd);
+void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
 
 #endif /* moneyMainFunction_h */

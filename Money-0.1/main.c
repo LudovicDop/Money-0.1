@@ -42,9 +42,12 @@ int main(int argc, const char * argv[]) {
             scanf("%s",&choice2);
             if(choice2 == 'y' || choice2 == 'Y'){
                 int money;
+                char why[100] = "NULL";
                 printf("How much :  ");
                 scanf("%d", &money);
-                addAmount(finalName, login, money);
+                printf("Comment : ");
+                scanf("%s",why); //Ne prend pas les espaces en compte ! HERE
+                addAmount(finalName, login, money,why);
             }
         }
 
