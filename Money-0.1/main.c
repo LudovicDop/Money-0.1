@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moneyMainFunction.h"
+#define MAX_NAME_SIZE 256
+#define FLUSH while(getchar() != '\n');
 int main(int argc, const char * argv[]) {
 
     char choice = 'Q';
@@ -42,11 +44,19 @@ int main(int argc, const char * argv[]) {
             scanf("%s",&choice2);
             if(choice2 == 'y' || choice2 == 'Y'){
                 int money;
-                char why[100] = "NULL";
+                char *why = malloc(sizeof(why));
                 printf("How much :  ");
                 scanf("%d", &money);
+                FLUSH
                 printf("Comment : ");
-                scanf("%s",why); //Ne prend pas les espaces en compte ! HERE
+                //scanf("%s",why); //Ne prend pas les espaces en compte ! HERE
+                if(fgets(why, MAX_NAME_SIZE, stdin)){
+                    printf("Hey %s",why);
+                    strremove(why, "\n");
+                }else{
+                    printf("error");
+                }
+                
                 addAmount(finalName, login, money,why);
             }
         }

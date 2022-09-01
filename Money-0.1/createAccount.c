@@ -58,10 +58,10 @@ void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *na
     }
 }
 
-void reading(char *nameAccount,char *usr)
+const char* reading(char *nameAccount,char *usr)
 {
     char *name;
-    char tmp[100];
+    char *tmp = malloc(sizeof(tmp));
     name = nameAccount;
     
     FILE *fileAccount = NULL;
@@ -77,27 +77,26 @@ void reading(char *nameAccount,char *usr)
     printf("            *** Loading bank account *** \n\n");
     printf("             %s do you have => %s €\n\n",usr,tmp);
     
-    
+    return tmp;
 }
 
 void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
 {
     char *name;
-    char tmp[100];
     name = nameAccount;
+    char **tmp = reading(nameAccount, usr);
     
     FILE *fileAccount = NULL;
     char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
     char *s = concat(chemin, name);
     
-    reading(nameAccount, usr);
+    //reading(nameAccount, usr);
     
     fileAccount = fopen(s, "a");
     int x;
     sscanf(tmp, "%d",&x);
     int result = x + amountAdd;
     char c[100];
-    char *buffer = NULL;
     sprintf(c, "%d",result);
     char *cNewWithReturn = concat("\n", c);
     //fileAccount = fopen(s, "w");
@@ -108,5 +107,16 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     printf("         *** %s do you have now %d ***\n\n",usr,result);
     fclose(fileAccount);
     
+}
+
+char *strremove(char *str, const char *sub) {
+    size_t len = strlen(sub);
+    if (len > 0) {
+        char *p = str;
+        while ((p = strstr(p, sub)) != NULL) {
+            memmove(p, p + len, strlen(p + len) + 1);
+        }
+    }
+    return str;
 }
 
