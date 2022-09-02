@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -29,7 +29,7 @@ void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *na
     if(nameAccount)
     {
         FILE *fileAccount = NULL; //Creation du fichier vide
-        char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
+        char *chemin = PATH; //Chemin de stockage
         char *s = concat(chemin, nameAccount); //Concaténation du chemin puis du nom du fichier en question
         fileAccount = fopen(s, "r"); //On lit le fichier pour voir s'il existe ou non
         fclose(fileAccount);
@@ -65,7 +65,7 @@ const char* reading(char *nameAccount,char *usr)
     name = nameAccount;
     
     FILE *fileAccount = NULL;
-    char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
+    char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
     
     fileAccount = fopen(s, "r");
@@ -87,7 +87,7 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     char **tmp = reading(nameAccount, usr);
     
     FILE *fileAccount = NULL;
-    char *chemin = "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"; //Chemin de stockage
+    char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
     
     //reading(nameAccount, usr);
