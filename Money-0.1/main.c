@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moneyMainFunction.h"
+#include <time.h>
 #define MAX_NAME_SIZE 256
 #define FLUSH while(getchar() != '\n');
 int main(int argc, const char * argv[]) {
@@ -52,6 +53,7 @@ int main(int argc, const char * argv[]) {
                 //scanf("%s",why); //Ne prend pas les espaces en compte ! HERE
                 if(fgets(why, MAX_NAME_SIZE, stdin)){
                     printf("Hey %s",why);
+                  
                     strremove(why, "\n");
                 }else{
                     printf("error");

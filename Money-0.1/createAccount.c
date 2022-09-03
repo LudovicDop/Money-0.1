@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <assert.h>
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
@@ -84,8 +86,8 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
 {
     char *name;
     name = nameAccount;
-    char **tmp = reading(nameAccount, usr);
-    
+    char *tmp = reading(nameAccount, usr);
+ 
     FILE *fileAccount = NULL;
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
@@ -100,11 +102,15 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     sprintf(c, "%d",result);
     char *cNewWithReturn = concat("\n", c);
     //fileAccount = fopen(s, "w");
-
+    
+    time_t now = time(NULL); //Chargement de la date actuelle
+    struct tm *tm_time = localtime(&now);
     
     fprintf(fileAccount, cNewWithReturn); //HERE
-    fprintf(fileAccount, " =>  %d + %d ( Reason : %s )",x,amountAdd,why);
+    
+    fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon,tm_time->tm_year-100);
     printf("         *** %s do you have now %d ***\n\n",usr,result);
+
     fclose(fileAccount);
     
 }
@@ -119,4 +125,10 @@ char *strremove(char *str, const char *sub) {
     }
     return str;
 }
+
+
+
+
+
+
 

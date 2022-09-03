@@ -16,4 +16,5 @@ void reading(char *nameAccount,char *usr);
 void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
 char *strremove(char *str, const char *sub);
 
+
 #endif /* moneyMainFunction_h */
