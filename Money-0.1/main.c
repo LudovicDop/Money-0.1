@@ -55,11 +55,12 @@ int main(int argc, const char * argv[]) {
                     printf("Hey %s",why);
                   
                     strremove(why, "\n");
+		    addAmount(finalName,login,money,why);
                 }else{
                     printf("error");
                 }
                 
-                addAmount(finalName, login, money,why);
+                
             }
         }
 
