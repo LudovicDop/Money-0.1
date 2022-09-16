@@ -19,8 +19,8 @@ int main(int argc, const char * argv[]) {
         scanf("%s",&choice);
         if(choice == 'Y' || choice == 'y'){
             char name[50];
-            char *extension = ".txt";
-            char *finalName = NULL;
+            //char *extension = ".txt";
+            //char *finalName = NULL;
             char amount[1000];
             printf("What's your name ? \n");
             scanf("%s",name);
@@ -28,8 +28,8 @@ int main(int argc, const char * argv[]) {
             printf("How many money do you have today ? \n");
             scanf("%s",amount);
             
-            finalName = concat(name, extension);
-            initialisationNouveauCompte(finalName,amount,name);
+            //finalName = concat(name, extension);
+            initialisationNouveauCompte(amount,name);
         }
         if(choice == 'N' || choice == 'n')
         {
@@ -52,14 +52,17 @@ int main(int argc, const char * argv[]) {
                 printf("Comment : ");
                 //scanf("%s",why); //Ne prend pas les espaces en compte ! HERE
                 if(fgets(why, MAX_NAME_SIZE, stdin)){
-                    printf("Hey %s",why);
+                    //printf("Hey %s",why);
                   
                     strremove(why, "\n");
-		    addAmount(finalName,login,money,why);
+                   
+		    
                 }else{
                     printf("error");
                 }
                 
+                addAmount(finalName,login,money,why);
+              
                 
             }
         }

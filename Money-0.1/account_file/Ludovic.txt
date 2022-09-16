@@ -1,3 +1,4 @@
-1400
-1500 =>  1400 + 100 ( Reason : Perception de la ) 12/8/22
-1510 =>  1500 + 10 ( Reason : test ) 12/9/22
+
+1 =>  0 + 1 ( Reason : test ) 16/9/22
+101 =>  1 + 100 ( Reason : test ) 16/9/22
+201 =>  101 + 100 ( Reason : Hey  ) 16/9/22

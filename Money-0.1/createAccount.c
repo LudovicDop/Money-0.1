@@ -10,8 +10,8 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
-//#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
+//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -21,13 +21,16 @@ char* concat(const char *s1, const char *s2)
     return result;
 }
 
-void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *name)
+void initialisationNouveauCompte(char *valeurDuCompte,char *name)
 {
+    char *extension = ".txt";
     char *nameAccount; //Nom du compte
     char *moneyValue; //Argent de base sur le compte
-    
-    nameAccount = nomDuCompte; // Récupération des valeurs entrer par l'utilisateur
+    char *finalName = NULL;
+    char *finalNameParam = NULL;
+    finalName = concat(name, extension);
     moneyValue = valeurDuCompte; // Récupération des valeurs entrer par l'utilisateur
+    nameAccount = finalName;
     
     if(nameAccount)
     {
@@ -48,6 +51,7 @@ void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *na
                 fileAccount = fopen(s, "w");
                 fprintf(fileAccount, valeurDuCompte);
                 fclose(fileAccount);
+                update(name);
             }
             else{
                 exit(EXIT_FAILURE);
@@ -63,10 +67,12 @@ void initialisationNouveauCompte(char *nomDuCompte,char *valeurDuCompte,char *na
 
 char* reading(char *nameAccount,char *usr)
 {
-    char *name;
     char *tmp = malloc(sizeof(tmp));
+   printf("hey add"); //HERE CRASH LOGICIEL PHRASE Perception de la caf de merde
+    char *name = malloc(sizeof(name));
+
     name = nameAccount;
-    
+   
     FILE *fileAccount = NULL;
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
@@ -77,23 +83,28 @@ char* reading(char *nameAccount,char *usr)
     char d[] = " ";
     char *comment = strtok(tmp,d);
     printf("            *** Loading bank account *** \n\n");
-    printf("             %s do you have => %s €\n\n",usr,tmp);
+    printf("             %s do you have => %s $\n\n",usr,tmp);
     
     return tmp;
+
+   free(tmp);
+   free(name);
 }
 
 void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
 {
+    
     char *name;
+    char *commentaire = why;
     name = nameAccount;
+    
     char *tmp = reading(nameAccount, usr);
- 
     FILE *fileAccount = NULL;
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
     
     //reading(nameAccount, usr);
-    
+   
     fileAccount = fopen(s, "a");
     int x;
     sscanf(tmp, "%d",&x);
@@ -108,8 +119,8 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     
     fprintf(fileAccount, cNewWithReturn); //HERE
     
-    fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-    printf("         *** %s do you have now %d €***\n\n",usr,result);
+    fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,commentaire,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    printf("         *** %s do you have now %d $***\n\n",usr,result);
 
     fclose(fileAccount);
     
@@ -126,8 +137,18 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
-void month(){
-    
+void update(char *name){
+    FILE *fileMonth = NULL;
+    char *chemin = PATH;
+    char *s = concat(chemin,name);
+    char param[13] = "_configMonth";
+    char *finalNameParam = NULL;
+    char *extension = ".txt";
+    char *finalName = concat(s,param);
+    finalNameParam = concat(finalName,extension);
+    fileMonth = fopen(finalNameParam,"w");
+    fclose(fileMonth);
+
 }
 
 
