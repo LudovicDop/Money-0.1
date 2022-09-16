@@ -10,8 +10,8 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
-//#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
+//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -83,7 +83,6 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
 char* reading(char *nameAccount,char *usr)
 {
     char *tmp = malloc(sizeof(tmp));
-   printf("hey add"); //HERE CRASH LOGICIEL PHRASE Perception de la caf de merde
     char *name = malloc(sizeof(name));
 
     name = nameAccount;

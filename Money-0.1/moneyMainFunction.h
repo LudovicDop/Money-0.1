@@ -10,12 +10,10 @@
 
 /* Mes fonctions */
 void update(char *name);
-void initialisationNouveauCompte(char *name,char *amount);
+char *strremove(char *str, const char *sub);
+void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
 char* concat(const char *s1, const char *s2);
 void reading(char *nameAccount,char *usr);
-void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
-char *strremove(char *str, const char *sub);
-
-
+void initialisationNouveauCompte(char *name,char *amount);
 
 #endif /* moneyMainFunction_h */
