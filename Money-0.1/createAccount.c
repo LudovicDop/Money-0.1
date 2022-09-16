@@ -10,8 +10,8 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
-#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+//#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
+#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -19,6 +19,21 @@ char* concat(const char *s1, const char *s2)
     strcpy(result, s1);
     strcat(result, s2);
     return result;
+}
+
+
+void update(char *name){
+    FILE *fileMonth = NULL;
+    char *chemin = PATH;
+    char *s = concat(chemin,name);
+    char param[13] = "_configMonth";
+    char *finalNameParam = NULL;
+    char *extension = ".txt";
+    char *finalName = concat(s,param);
+    finalNameParam = concat(finalName,extension);
+    fileMonth = fopen(finalNameParam,"w");
+    fclose(fileMonth);
+
 }
 
 void initialisationNouveauCompte(char *valeurDuCompte,char *name)
@@ -137,19 +152,6 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
-void update(char *name){
-    FILE *fileMonth = NULL;
-    char *chemin = PATH;
-    char *s = concat(chemin,name);
-    char param[13] = "_configMonth";
-    char *finalNameParam = NULL;
-    char *extension = ".txt";
-    char *finalName = concat(s,param);
-    finalNameParam = concat(finalName,extension);
-    fileMonth = fopen(finalNameParam,"w");
-    fclose(fileMonth);
-
-}
 
 
 
