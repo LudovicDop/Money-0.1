@@ -12,7 +12,7 @@
 #include <assert.h>
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
-#elif 
+#else
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
