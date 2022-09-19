@@ -10,8 +10,12 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#if defined(__APPLE__) && defined(__MACH__)
+#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+#elif 
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+#endif
+
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -32,6 +36,14 @@ void update(char *name){
     char *finalName = concat(s,param);
     finalNameParam = concat(finalName,extension);
     fileMonth = fopen(finalNameParam,"w");
+
+    time_t now = time(NULL); //Chargement de la date actuelle
+    struct tm *tm_time = localtime(&now);
+
+    fprintf(fileMonth,"Last update : %d/%d/%d",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+
+
+
     fclose(fileMonth);
 
 }
@@ -134,7 +146,7 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     fprintf(fileAccount, cNewWithReturn); //HERE
     
     fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,commentaire,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-    printf("         *** %s do you have now %d $***\n\n",usr,result);
+    printf("         *** %s do you have now %d $ ***\n\n",usr,result);
 
     fclose(fileAccount);
     

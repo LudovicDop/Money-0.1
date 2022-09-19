@@ -40,6 +40,7 @@ int main(int argc, const char * argv[]) {
             reading(finalName,login);
             char choice2 = ' ';
             printf("Do you want to add something ? (Y/N)\n");
+            update(login);
             scanf("%s",&choice2);
             if(choice2 == 'y' || choice2 == 'Y'){
                 int money;
