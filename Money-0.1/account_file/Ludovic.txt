@@ -1,5 +1,0 @@
-1
-2 =>  1 + 1 ( Reason : test ) 24/9/22
-1002 =>  2 + 1000 ( Reason : Perception de la caf depuis tantntt ) 24/9/22
-11002 =>  1002 + 10000 ( Reason : Perception de la cafv de merde ) 24/9/22
-111002 =>  11002 + 100000 ( Reason : test de merde Inana ) 24/9/22

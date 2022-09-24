@@ -10,13 +10,14 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
-//#if defined(__APPLE__) && defined(__MACH__)
-/*#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+
+#if defined(__APPLE__) && defined(__MACH__)
+#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 #else
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
-*/
-#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+
+//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
