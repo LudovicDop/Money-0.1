@@ -44,7 +44,7 @@ int main(int argc, const char * argv[]) {
             scanf("%s",&choice2);
             if(choice2 == 'y' || choice2 == 'Y'){
                 int money;
-                char *why;
+                char *why = malloc(sizeof(why));
                 printf("How much :  ");
                 scanf("%d", &money);
                 FLUSH
@@ -60,6 +60,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 addAmount(finalName,login,money,why);
+                free(why);
               
                 
             }
