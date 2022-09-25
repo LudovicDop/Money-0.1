@@ -94,7 +94,7 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
     }
 }
 
-char* reading(char *nameAccount,char *usr)
+char *reading(char *nameAccount,char *usr)
 {
     char *tmp = malloc(sizeof(tmp));
     char *name = malloc(sizeof(name));
@@ -105,15 +105,25 @@ char* reading(char *nameAccount,char *usr)
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
     
+    
     fileAccount = fopen(s, "r");
     
-    while(fgets(tmp, 100, fileAccount) != NULL);
-    char d[] = " ";
-    char *comment = strtok(tmp,d);
-    printf("             *** Loading bank account *** \n\n");
-    printf("             %s do you have => %s $\n\n",usr,tmp);
+    if(fileAccount == NULL){
+        printf("             *** Nothing has been found ! *** \n\n");
+        return NULL;
+    }
+    else{
+        while(fgets(tmp, 100, fileAccount) != NULL);
+        char d[] = " ";
+        char *comment = strtok(tmp,d);
+        printf("             *** Loading bank account *** \n\n");
+        printf("             %s do you have => %s $\n\n",usr,tmp);
+        return tmp;
+        
+    }
     
-    return tmp;
+
+
 
    //free(tmp);
   // free(name);

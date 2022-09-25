@@ -37,33 +37,40 @@ int main(int argc, const char * argv[]) {
             printf("Login : \n");
             scanf("%s",login);
             finalName = concat(login, extension);
-            reading(finalName,login);
-            char choice2 = ' ';
-            printf("Do you want to add something ? (Y/N)\n");
-            update(login);
-            scanf("%s",&choice2);
-            if(choice2 == 'y' || choice2 == 'Y'){
-                int money;
-                char *why = malloc(sizeof(why));
-                printf("How much :  ");
-                scanf("%d", &money);
-                FLUSH
-                printf("Comment : ");
-
-                if(fgets(why, MAX_NAME_SIZE, stdin)){
-                  
-                    strremove(why, "\n");
-                   
-		    
-                }else{
-                    printf("error");
-                }
+            
+            if(reading(finalName,login) != NULL){
                 
-                addAmount(finalName,login,money,why);
-                free(why);
-              
+                char choice2 = ' ';
+                printf("Do you want to add something ? (Y/N)\n");
+                update(login);
+                scanf("%s",&choice2);
+                if(choice2 == 'y' || choice2 == 'Y'){
+                    int money;
+                    char *why = malloc(sizeof(why));
+                    printf("How much :  ");
+                    scanf("%d", &money);
+                    FLUSH
+                    printf("Comment : ");
+
+                    if(fgets(why, MAX_NAME_SIZE, stdin)){
+                      
+                        strremove(why, "\n");
+                       
+                
+                    }else{
+                        printf("error");
+                    }
+                    
+                    addAmount(finalName,login,money,why);
+                    free(why);
+                  
+                    
                 
             }
+                
+            }
+                
+            
         }
 
     }while((choice != 'Q' && choice != 'q'));
