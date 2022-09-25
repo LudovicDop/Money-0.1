@@ -10,6 +10,8 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include <stdbool.h>
+
 
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
@@ -37,11 +39,12 @@ void update(char *name){
     char *extension = ".txt";
     char *finalName = concat(s,param);
     finalNameParam = concat(finalName,extension);
-    fileMonth = fopen(finalNameParam,"w");
+    fileMonth = fopen(finalNameParam,"w+");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
-
+    char *tmp = malloc(sizeof(tmp));
+    fgets(tmp, 100, fileMonth);
     fprintf(fileMonth,"Last update : %d/%d/%d",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
 
 
