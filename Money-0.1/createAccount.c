@@ -31,29 +31,33 @@ char* concat(const char *s1, const char *s2)
 
 
 void update(char *name){
-    FILE *fileMonth = NULL;
+    FILE *fileMonth, *tmpFile = NULL;
     char *chemin = PATH;
     char *s = concat(chemin,name);
     char param[13] = "_configMonth";
+    char tmpParam[13] = "___temp"; //TMP
     char *finalNameParam = NULL;
+    char *tmpFinalNameParam = NULL;
     char *extension = ".txt";
     char *finalName = concat(s,param);
+    char *tmpFinalName = concat(s,tmpParam); //TMP
     finalNameParam = concat(finalName,extension);
-    fileMonth = fopen(finalNameParam,"a");
+    tmpFinalNameParam = concat(tmpFinalName,extension);
+    fileMonth = fopen(finalNameParam,"w");
+    tmpFile = fopen(tmpFinalNameParam, "w");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
     char *tmp = malloc(sizeof(tmp));
     fgets(tmp, 100, fileMonth);
     fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-    char d[] = "Last update : %d/%d/%d ";
-    char *comment = malloc(sizeof(comment));
-    comment = strtok(d, tmp);
-    fprintf(fileMonth, comment);
-
-
+    
+    
+    
+    remove(tmpFinalNameParam); //TEMP
+    
     fclose(fileMonth);
-
+    fclose(tmpFile);
 }
 
 void initialisationNouveauCompte(char *valeurDuCompte,char *name)
