@@ -39,14 +39,17 @@ void update(char *name){
     char *extension = ".txt";
     char *finalName = concat(s,param);
     finalNameParam = concat(finalName,extension);
-    fileMonth = fopen(finalNameParam,"w+");
+    fileMonth = fopen(finalNameParam,"a");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
     char *tmp = malloc(sizeof(tmp));
     fgets(tmp, 100, fileMonth);
-    fprintf(fileMonth,"Last update : %d/%d/%d",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-
+    fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    char d[] = "Last update : %d/%d/%d ";
+    char *comment = malloc(sizeof(comment));
+    comment = strtok(d, tmp);
+    fprintf(fileMonth, comment);
 
 
     fclose(fileMonth);
