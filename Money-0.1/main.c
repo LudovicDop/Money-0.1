@@ -46,7 +46,8 @@ int main(int argc, const char * argv[]) {
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
                     int money;
-                    char *why = malloc(sizeof(why));
+                    //char *why = malloc(sizeof(why));
+                    char *why;
                     printf("How much :  ");
                     scanf("%d", &money);
                     FLUSH
