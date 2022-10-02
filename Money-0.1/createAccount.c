@@ -43,21 +43,54 @@ void update(char *name){
     char *tmpFinalName = concat(s,tmpParam); //TMP
     finalNameParam = concat(finalName,extension);
     tmpFinalNameParam = concat(tmpFinalName,extension);
-    fileMonth = fopen(finalNameParam,"w");
-    tmpFile = fopen(tmpFinalNameParam, "w");
+   
+    fileMonth = fopen(finalNameParam,"a");
+    //tmpFile = fopen(tmpFinalNameParam, "w");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
     char *tmp = malloc(sizeof(tmp));
     fgets(tmp, 100, fileMonth);
-    fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    fprintf(fileMonth,"Last update : %d/%d/%d",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
     
-    
-    
-    remove(tmpFinalNameParam); //TEMP
+    fclose(fileMonth);
+
+
+
+    char curr;
+    int del,line_number = 0;
+
+    del = 3;
+
+    fileMonth = fopen(finalNameParam,"r");
+    tmpFile = fopen(tmpFinalNameParam, "w");
+
+    curr = getc(fileMonth);
+
+    if(curr!=EOF){
+        line_number = 1;
+    }
+    while (curr != EOF)
+    {
+        if(del != line_number){
+            putc(curr,tmpFile);
+            curr = getc(fileMonth);
+            if(curr == '\n')line_number++;
+            printf("Line number : %d",line_number);
+            printf("%c",curr);
+            if(curr == EOF) break;
+        }
+       /* if(del == line_number){
+            line_number++;
+            printf("tac");
+        }*/
+    }
+       printf("Line number : %d",line_number);
+    //remove(tmpFinalNameParam); //TEMP
     
     fclose(fileMonth);
     fclose(tmpFile);
+
 }
 
 void initialisationNouveauCompte(char *valeurDuCompte,char *name)
