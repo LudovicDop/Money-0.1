@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <time.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -39,11 +40,12 @@ void update(char *name){
     char *finalNameParam = NULL;
     char *tmpFinalNameParam = NULL;
     char *extension = ".txt";
+    char *nomRename = concat(s,param);
+    char *nomRename2 = concat(nomRename,extension);
     char *finalName = concat(s,param);
     char *tmpFinalName = concat(s,tmpParam); //TMP
     finalNameParam = concat(finalName,extension);
     tmpFinalNameParam = concat(tmpFinalName,extension);
-   
     fileMonth = fopen(finalNameParam,"a");
     //tmpFile = fopen(tmpFinalNameParam, "w");
 
@@ -51,11 +53,11 @@ void update(char *name){
     struct tm *tm_time = localtime(&now);
     char *tmp = malloc(sizeof(tmp));
     fgets(tmp, 100, fileMonth);
-    fprintf(fileMonth,"Last update : %d/%d/%d",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-    
+    fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    //ici bug @  
     fclose(fileMonth);
 
-
+    //first second
 
     char curr;
     int del,line_number = 0;
@@ -66,30 +68,40 @@ void update(char *name){
     tmpFile = fopen(tmpFinalNameParam, "w");
 
     curr = getc(fileMonth);
-
+    printf("HERE DATA : %c",curr);
     if(curr!=EOF){
-        line_number = 1;
+            int i = 0;
+           while(curr != 'L' || i < 5){
+            i++;
+            curr = getc(fileMonth);
+            printf("LA %c \n",curr);
+        }
     }
+        
     while (curr != EOF)
     {
-        if(del != line_number){
+
+
             putc(curr,tmpFile);
             curr = getc(fileMonth);
-            if(curr == '\n')line_number++;
-            printf("Line number : %d",line_number);
-            printf("%c",curr);
             if(curr == EOF) break;
-        }
+
        /* if(del == line_number){
             line_number++;
             printf("tac");
         }*/
     }
-       printf("Line number : %d",line_number);
-    //remove(tmpFinalNameParam); //TEMP
-    
+    printf("here : %c",curr);
+    printf("Line number : %d",line_number);
+
     fclose(fileMonth);
     fclose(tmpFile);
+
+    //if(remove(finalNameParam) == 0) printf("=> %s avec succes!",finalNameParam) ;
+    //rename(tmpFinalNameParam,nomRename2);
+    //rename(tmpFinalNameParam,"test");
+
+
 
 }
 
