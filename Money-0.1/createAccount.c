@@ -47,12 +47,17 @@ void update(char *name){
     finalNameParam = concat(finalName,extension);
     tmpFinalNameParam = concat(tmpFinalName,extension);
     fileMonth = fopen(finalNameParam,"a");
+    fclose(fileMonth);
+    fileMonth = fopen(finalNameParam,"r+");
     //tmpFile = fopen(tmpFinalNameParam, "w");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
     char *tmp = malloc(sizeof(tmp));
-    fgets(tmp, 100, fileMonth);
+    char test;
+
+    rewind(fileMonth);
+        
     fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
     //ici bug @  
     fclose(fileMonth);
@@ -68,13 +73,13 @@ void update(char *name){
     tmpFile = fopen(tmpFinalNameParam, "w");
 
     curr = getc(fileMonth);
-    printf("HERE DATA : %c",curr);
+    
     if(curr!=EOF){
             int i = 0;
-           while(curr != 'L' || i < 5){
+           while(curr != 'L'){
             i++;
             curr = getc(fileMonth);
-            printf("LA %c \n",curr);
+           
         }
     }
         
@@ -91,15 +96,15 @@ void update(char *name){
             printf("tac");
         }*/
     }
-    printf("here : %c",curr);
-    printf("Line number : %d",line_number);
+
 
     fclose(fileMonth);
     fclose(tmpFile);
 
     //if(remove(finalNameParam) == 0) printf("=> %s avec succes!",finalNameParam) ;
-    //rename(tmpFinalNameParam,nomRename2);
-    //rename(tmpFinalNameParam,"test");
+    remove(finalNameParam);
+    rename(tmpFinalNameParam,nomRename2);
+    
 
 
 
