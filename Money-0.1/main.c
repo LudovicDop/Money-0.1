@@ -41,7 +41,8 @@ int main(int argc, const char * argv[]) {
             if(reading(finalName,login) != NULL){
                 
                 char choice2 = ' ';
-                printf("Do you want to add something ? (Y/N)\n");
+                //Param by month NOM:dd/mm/yy:somme
+                printf("Do you want to add something ? (Y/N) or (x)\n");
                 update(login);
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
@@ -67,6 +68,18 @@ int main(int argc, const char * argv[]) {
                   
                     
                 
+            }
+            if(choice2 == 'x' || choice2 == 'X'){
+                char nom[100];
+                char date[100];
+                int somme = 0;
+                printf("Quel est le nom de la taxe ? ");
+                scanf("%s",nom);
+                printf("Date : ");
+                scanf("%s",date);
+                printf("Somme : ");
+                scanf("%d",&somme);
+                month(nom,date,somme,login);
             }
                 
             }

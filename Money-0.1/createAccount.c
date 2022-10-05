@@ -234,6 +234,22 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
+void month(char *nom,char *date,int somme, char *name){
+        
+        FILE *fileAccount = NULL;
+        char *chemin = PATH; //Chemin de stockage
+        char param[13] = "_configMonth";
+        char *extension = ".txt";
+        char *s = concat(chemin, name); //Concaténation du chemin puis du nom du fichier en question
+        char *s2 = concat(s,param);
+        char *s3 = concat(s2,extension);
+        fileAccount = fopen(s3, "a"); //On lit le fichier pour voir s'il existe ou non
+      
+         fprintf(fileAccount,"\n\n%s:%s:%d \n",nom,date,somme);
+
+         fclose(fileAccount);
+}
+
 
 
 
