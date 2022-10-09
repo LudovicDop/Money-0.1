@@ -17,7 +17,8 @@
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 #else
-#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
+//#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
+#define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
 //#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
@@ -115,8 +116,8 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
     char *extension = ".txt";
     char *nameAccount; //Nom du compte
     char *moneyValue; //Argent de base sur le compte
-    char *finalName = NULL;
-    char *finalNameParam = NULL;
+    char *finalName;
+    char *finalNameParam;
     finalName = concat(name, extension);
     moneyValue = valeurDuCompte; // Récupération des valeurs entrer par l'utilisateur
     nameAccount = finalName;
@@ -127,10 +128,11 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
         char *chemin = PATH; //Chemin de stockage
         char *s = concat(chemin, nameAccount); //Concaténation du chemin puis du nom du fichier en question
         fileAccount = fopen(s, "r"); //On lit le fichier pour voir s'il existe ou non
-        fclose(fileAccount);
+        
         printf("        ***Creation of the new account in progress...***\n");
         if(fileAccount == NULL) //Si le fichier n'existe pas
         {
+            //fclose(fileAccount);
             fileAccount = fopen(s, "a"); //Creation du fichier s'il n'existe pas
             fclose(fileAccount);
             if(fileAccount)
@@ -152,13 +154,13 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
         }
         
     }
+    
 }
 
 char *reading(char *nameAccount,char *usr)
 {
     char *tmp = malloc(sizeof(tmp));
     char *name = malloc(sizeof(name));
-
     name = nameAccount;
    
     FILE *fileAccount = NULL;

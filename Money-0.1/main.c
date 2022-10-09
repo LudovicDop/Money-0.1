@@ -18,16 +18,16 @@ int main(int argc, const char * argv[]) {
         printf("Do you want to create a new account ? (Y/N) or leave with (Q) \n");
         scanf("%s",&choice);
         if(choice == 'Y' || choice == 'y'){
-            char name[50];
+            char name[1000];
             char amount[1000];
             
             printf("What's your name ? \n");
             scanf("%s",name);
-            
             printf("How many money do you have today ? \n");
             scanf("%s",amount);
-            
             initialisationNouveauCompte(amount,name);
+
+
         }
         if(choice == 'N' || choice == 'n')
         {
@@ -47,8 +47,8 @@ int main(int argc, const char * argv[]) {
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
                     int money;
-                    //char *why = malloc(sizeof(why));
-                    char *why;
+                    char *why = malloc(sizeof(why));
+                    //char *why;
                     printf("How much :  ");
                     scanf("%d", &money);
                     FLUSH
