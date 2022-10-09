@@ -61,7 +61,7 @@ void update(char *name){
 
     rewind(fileMonth);
         
-    fprintf(fileMonth,"Last update : %d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    fprintf(fileMonth,"Last update :%d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
     //ici bug @  
     fclose(fileMonth);
 
@@ -252,6 +252,89 @@ void month(char *nom,char *date,int somme, char *name){
          fprintf(fileAccount,"\n%s:%s:%d",nom,date,somme);
 
          fclose(fileAccount);
+}
+
+void updateMonth(char *usr){
+
+    FILE *fileAccount = NULL;
+    char *chemin = PATH;
+    char param[13] = "_configMonth";
+    char *extension = ".txt";
+    char *s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
+    char *s2 = concat(s,param);
+    char *s3 = concat(s2,extension);
+
+    fileAccount = fopen(s3,"r");
+    char tmp = fgetc(fileAccount);
+    char *string;
+    while(tmp != ':'){
+        tmp = fgetc(fileAccount);
+    }
+  
+    char tmp2[100];
+    fgets(tmp2,100,fileAccount);
+    
+    printf("here :%s \n",tmp2);
+    
+    char d[] = "/";
+    int i = 0;
+    char *day = strtok(tmp2,d);
+    rewind(fileAccount);
+    while(tmp != '/' || i != 1){
+        tmp = fgetc(fileAccount);
+        if(tmp == '/'){
+            i++;
+        }
+    }
+    int dayInt;
+    sscanf(day,"%d",&dayInt);
+    printf("Day : %d \n",dayInt);
+
+     fgets(tmp2,100,fileAccount);
+    char *month = strtok(tmp2,d);
+
+    rewind(fileAccount);
+    while(tmp != '/' || i != 3){
+        tmp = fgetc(fileAccount);
+        if(tmp == '/'){
+            i++;
+        }
+    }
+
+    int monthInt;
+    sscanf(month,"%d",&monthInt);
+    printf("Month : %d \n",monthInt);
+
+     fgets(tmp2,100,fileAccount);
+    char *year = strtok(tmp2,d);
+
+    int yearInt;
+    sscanf(year,"%d",&yearInt);
+    printf("Year : %d \n",yearInt);
+
+    rewind(fileAccount);
+    fgets(tmp2,100,fileAccount);
+
+    while(fgets(tmp2,100,fileAccount) != NULL){
+        //printf("ntao : %s ",tmp2);
+        char *name = strtok(tmp2,":");
+        printf("name : %s \n",name);
+    }
+    rewind(fileAccount);
+     fgets(tmp2,100,fileAccount);
+    while(fgets(tmp2,100,fileAccount) != NULL){
+
+       while(tmp != ':')tmp = fgetc(fileAccount);
+       tmp = fgetc(fileAccount);
+        char *daySub = strtok(tmp2,"/");
+        printf("Day : %s \n",daySub); 
+    }
+    
+
+  
+
+
+
 }
 
 

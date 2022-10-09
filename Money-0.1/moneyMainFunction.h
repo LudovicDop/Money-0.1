@@ -16,5 +16,6 @@ char* concat(const char *s1, const char *s2);
 char *reading(char *nameAccount,char *usr);
 void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme,char *name);
+void updateMonth(char *usr);
 
 #endif /* moneyMainFunction_h */

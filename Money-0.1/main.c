@@ -39,7 +39,7 @@ int main(int argc, const char * argv[]) {
             finalName = concat(login, extension);
             
             if(reading(finalName,login) != NULL){
-                
+                updateMonth(login);
                 char choice2 = ' ';
                 //Param by month NOM:dd/mm/yy:somme
                 printf("Do you want to add something ? (Y/N) or (x)\n");
@@ -47,8 +47,8 @@ int main(int argc, const char * argv[]) {
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
                     int money;
-                    //char *why = malloc(sizeof(why));
-                    char *why;
+                    char *why = malloc(sizeof(why));
+                    //char *why;
                     printf("How much :  ");
                     scanf("%d", &money);
                     FLUSH
