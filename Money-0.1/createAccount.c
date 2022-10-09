@@ -16,8 +16,10 @@
 
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+#endif
+#if defined(_WIN32) || defined(WIN32) 
+#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
 #else
-//#define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
@@ -247,7 +249,7 @@ void month(char *nom,char *date,int somme, char *name){
         char *s3 = concat(s2,extension);
         fileAccount = fopen(s3, "a"); //On lit le fichier pour voir s'il existe ou non
       
-         fprintf(fileAccount,"\n\n%s:%s:%d \n",nom,date,somme);
+         fprintf(fileAccount,"\n%s:%s:%d",nom,date,somme);
 
          fclose(fileAccount);
 }
