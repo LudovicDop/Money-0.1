@@ -315,32 +315,35 @@ void updateMonth(char *usr){
     rewind(fileAccount);
     fgets(tmp2,100,fileAccount);
 
+    typedef struct date date;
+    struct date{
+        char *day;
+        char *month;
+        char *year;
+        char *name;
+        char *amount;
+    };
+date test;
     while(fgets(tmp2,100,fileAccount) != NULL){
-        //printf("ntao : %s ",tmp2);
-        char *name = strtok(tmp2,":");
-        printf("name : %s \n",name);
-    }
-    rewind(fileAccount);
-     fgets(tmp2,100,fileAccount);
-    while(fgets(tmp2,100,fileAccount) != NULL){
+       
+       test.name = strtok(tmp2,":");
 
-       while(tmp != ':')tmp = fgetc(fileAccount);
-       tmp = fgetc(fileAccount);
-        char *daySub = strtok(tmp2,"/");
-        printf("Day : %s \n",daySub); 
-    }
-    
-
-  
-
-
-
+       printf("ici : %s \n",test.name);
 }
 
 
+rewind(fileAccount);
+fgets(tmp2,100,fileAccount);
+tmp = ' ';
 
+    while(fgets(tmp2,100,fileAccount) != NULL){
 
+    printf("here simplee : %s\n",tmp2);
 
+    /*test.day = strtok(tmp2,"/");*/
+    printf("la %s \n",tmp2);
 
+}
 
+}
 
