@@ -333,17 +333,38 @@ date test;
 
 
 rewind(fileAccount);
-fgets(tmp2,100,fileAccount);
-tmp = ' ';
 
-    while(fgets(tmp2,100,fileAccount) != NULL){
 
+int z = 0;
+char *testt;
+    while(testt != NULL){
+
+    testt = fgets(tmp2,100,fileAccount);
     printf("here simplee : %s\n",tmp2);
 
-    /*test.day = strtok(tmp2,"/");*/
-    printf("la %s \n",tmp2);
+    while(tmp != ':' && z < 1){
 
+        tmp = fgetc(fileAccount);
+        printf("!!!%c",tmp);
+
+    if(tmp == ':'){
+        z++;
+       
+         z = 0;
+         break;
+    }
+ 
+    }
+      testt = fgets(tmp2,100,fileAccount);
+  
+   
+   printf("current : %s\n",tmp2);
+   
+  test.day = strtok(tmp2,"/");
+
+    printf("la %s \n",test.day);
 }
+
 
 }
 
