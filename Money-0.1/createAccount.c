@@ -254,6 +254,37 @@ void month(char *nom,char *date,int somme, char *name){
          fclose(fileAccount);
 }
 
+int compteLesLignes(char *usr){
+    FILE *fileAccount = NULL;
+    char *chemin = PATH;
+    char param[13] = "_configMonth";
+    char *extension = ".txt";
+    char *s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
+    char *s2 = concat(s,param);
+    char *s3 = concat(s2,extension);
+
+    fileAccount = fopen(s3,"r");
+    char tmp = fgetc(fileAccount);
+    char *string;
+    while(tmp != ':'){
+        tmp = fgetc(fileAccount);
+    }
+
+rewind(fileAccount);
+
+int newline_counter = 0;
+
+char ch = getc(fileAccount);
+do{
+   if (ch == '\n') ++newline_counter;
+} while ((ch = getc(fileAccount)) != EOF);
+
+return newline_counter;
+
+
+}
+
+
 void updateMonth(char *usr){
 
     FILE *fileAccount = NULL;
@@ -331,32 +362,8 @@ date test;
        //printf("ici : %s \n",test.name);
 }
 
-rewind(fileAccount);
-int n = 0;
-char *intra;
-int zz = 0;
-
-while(intra != NULL){
-
-    while(tmp != '\n' && zz < 1){
-        tmp = getc(fileAccount);
-        if(tmp == '\n'){
-            printf("okay");
-              n++;
-              zz++;
-              zz = 0;
-            break;
-        }
-        
-    }
-    printf("okay");
-    intra = fgets(tmp2,100,fileAccount);
-    tmp = getc(fileAccount);
-
-}
-
-printf("ligne : %d",n);
-
+//ICI
+int verificationDesLignes1 = compteLesLignes(usr);
 rewind(fileAccount);
 
 
@@ -365,7 +372,7 @@ char *testt;
  testt = fgets(tmp2,100,fileAccount);
 
 
-    while(testt != NULL){
+    while(tmp != EOF){
        
    
     printf("here simplee : %s\n",tmp2);
@@ -377,6 +384,7 @@ char *testt;
 
     if(tmp == ':'){
         printf("joker");
+        printf("lignes : %d",verificationDesLignes1);
         z++;
          z = 0;
          break;
