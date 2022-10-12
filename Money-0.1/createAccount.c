@@ -274,7 +274,7 @@ void updateMonth(char *usr){
     char tmp2[100];
     fgets(tmp2,100,fileAccount);
     
-    printf("here :%s \n",tmp2);
+    //printf("here :%s \n",tmp2);
     
     char d[] = "/";
     int i = 0;
@@ -288,7 +288,7 @@ void updateMonth(char *usr){
     }
     int dayInt;
     sscanf(day,"%d",&dayInt);
-    printf("Day : %d \n",dayInt);
+    //printf("Day : %d \n",dayInt);
 
      fgets(tmp2,100,fileAccount);
     char *month = strtok(tmp2,d);
@@ -303,14 +303,14 @@ void updateMonth(char *usr){
 
     int monthInt;
     sscanf(month,"%d",&monthInt);
-    printf("Month : %d \n",monthInt);
+    //printf("Month : %d \n",monthInt);
 
      fgets(tmp2,100,fileAccount);
     char *year = strtok(tmp2,d);
 
     int yearInt;
     sscanf(year,"%d",&yearInt);
-    printf("Year : %d \n",yearInt);
+    //printf("Year : %d \n",yearInt);
 
     rewind(fileAccount);
     fgets(tmp2,100,fileAccount);
@@ -328,41 +328,69 @@ date test;
        
        test.name = strtok(tmp2,":");
 
-       printf("ici : %s \n",test.name);
+       //printf("ici : %s \n",test.name);
 }
 
+rewind(fileAccount);
+int n = 0;
+char *intra;
+int zz = 0;
+
+while(intra != NULL){
+
+    while(tmp != '\n' && zz < 1){
+        tmp = getc(fileAccount);
+        if(tmp == '\n'){
+            printf("okay");
+              n++;
+              zz++;
+              zz = 0;
+            break;
+        }
+        
+    }
+    printf("okay");
+    intra = fgets(tmp2,100,fileAccount);
+    tmp = getc(fileAccount);
+
+}
+
+printf("ligne : %d",n);
 
 rewind(fileAccount);
 
 
 int z = 0;
 char *testt;
-    while(testt != NULL){
+ testt = fgets(tmp2,100,fileAccount);
 
-    testt = fgets(tmp2,100,fileAccount);
+
+    while(testt != NULL){
+       
+   
     printf("here simplee : %s\n",tmp2);
 
     while(tmp != ':' && z < 1){
 
         tmp = fgetc(fileAccount);
-        printf("!!!%c",tmp);
+        //printf("!!!%c",tmp);
 
     if(tmp == ':'){
+        printf("joker");
         z++;
-       
          z = 0;
          break;
     }
  
     }
       testt = fgets(tmp2,100,fileAccount);
-  
+      tmp = fgetc(fileAccount);
    
-   printf("current : %s\n",tmp2);
+   //printf("current : %s\n",tmp2);
    
   test.day = strtok(tmp2,"/");
 
-    printf("la %s \n",test.day);
+    printf("test.day =  %s \n",test.day);
 }
 
 
