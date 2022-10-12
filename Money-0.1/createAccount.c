@@ -254,7 +254,7 @@ void month(char *nom,char *date,int somme, char *name){
          fclose(fileAccount);
 }
 
-int compteLesLignes(char *usr){
+const int compteLesLignes(char *usr){
     FILE *fileAccount = NULL;
     char *chemin = PATH;
     char param[13] = "_configMonth";
@@ -286,15 +286,25 @@ return newline_counter;
 
 
 void updateMonth(char *usr){
+ 
+    typedef struct date date;
+    struct date{
+        char *day;
+        char *month;
+        char *year;
+        char *name;
+        char *amount;
+    };
 
     FILE *fileAccount = NULL;
     char *chemin = PATH;
     char param[13] = "_configMonth";
     char *extension = ".txt";
+     
     char *s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
     char *s2 = concat(s,param);
     char *s3 = concat(s2,extension);
-
+  
     fileAccount = fopen(s3,"r");
     char tmp = fgetc(fileAccount);
     char *string;
@@ -337,7 +347,7 @@ void updateMonth(char *usr){
     //printf("Month : %d \n",monthInt);
 
      fgets(tmp2,100,fileAccount);
-    char *year = strtok(tmp2,d);
+     char *year = strtok(tmp2,d);
 
     int yearInt;
     sscanf(year,"%d",&yearInt);
@@ -345,62 +355,61 @@ void updateMonth(char *usr){
 
     rewind(fileAccount);
     fgets(tmp2,100,fileAccount);
+    int verificationDesLignes1 = compteLesLignes(usr);
+ 
+    
 
-    typedef struct date date;
-    struct date{
-        char *day;
-        char *month;
-        char *year;
-        char *name;
-        char *amount;
-    };
-date test;
+ date test[100];
+ int nameI = 0;
+
     while(fgets(tmp2,100,fileAccount) != NULL){
-       
-       test.name = strtok(tmp2,":");
-
-       //printf("ici : %s \n",test.name);
+       test[nameI].name = strtok(tmp2,":");
+       printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+       printf("Name : v1 %s n %d\n",test[nameI].name,nameI);
+       nameI++;
+     
 }
 
+/*
+for(int i = 0;i < verificationDesLignes1;i++){
+     printf("yep");
+     printf("Name : %s valeur de i = %d\n",test[nameI].name,i);
+     
+}
+
+*/
+ 
+
 //ICI
-int verificationDesLignes1 = compteLesLignes(usr);
+
 rewind(fileAccount);
 
 
 int z = 0;
 char *testt;
+int dayI = 0;
  testt = fgets(tmp2,100,fileAccount);
 
 
     while(tmp != EOF){
-       
-   
-    printf("here simplee : %s\n",tmp2);
 
-    while(tmp != ':' && z < 1){
-
+    while(tmp != ':'){
         tmp = fgetc(fileAccount);
-        //printf("!!!%c",tmp);
-
-    if(tmp == ':'){
-        printf("joker");
-        printf("lignes : %d",verificationDesLignes1);
-        z++;
-         z = 0;
-         break;
+        if(tmp == ':'){
+            printf("ok");
+            //dayI++;
+        }
     }
- 
-    }
+    dayI++;
       testt = fgets(tmp2,100,fileAccount);
       tmp = fgetc(fileAccount);
-   
-   //printf("current : %s\n",tmp2);
-   
-  test.day = strtok(tmp2,"/");
+      test[dayI].day = strtok(tmp2,"/");
 
-    printf("test.day =  %s \n",test.day);
+    printf("test.day =  %s \n",test[dayI].day);
 }
 
+
+printf("test : %s",test[2].day);
 
 }
 
