@@ -359,25 +359,26 @@ void updateMonth(char *usr){
  
     
 
- date test[100];
+ date test[verificationDesLignes1];
  int nameI = 0;
-
-    while(fgets(tmp2,100,fileAccount) != NULL){
-       test[nameI].name = strtok(tmp2,":");
-       printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-       printf("Name : v1 %s n %d\n",test[nameI].name,nameI);
-       nameI++;
-     
-}
-
 /*
+    while(fgets(tmp2,100,fileAccount) != NULL){
+       
+       //printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+       //printf("Name : v1 %s n %d\n",test[nameI].name,nameI);
+      
+     
+}
+*/
 for(int i = 0;i < verificationDesLignes1;i++){
+    fgets(tmp2,100,fileAccount);
+     test[i].name = strtok(tmp2,":");
      printf("yep");
-     printf("Name : %s valeur de i = %d\n",test[nameI].name,i);
+     printf("Name : %s valeur de i = %d\n",test[i].name,i);
      
 }
 
-*/
+
  
 
 //ICI
@@ -400,7 +401,7 @@ int dayI = 0;
             //dayI++;
         }
     }
-    dayI++;
+      dayI++;
       testt = fgets(tmp2,100,fileAccount);
       tmp = fgetc(fileAccount);
       test[dayI].day = strtok(tmp2,"/");
@@ -408,8 +409,15 @@ int dayI = 0;
     printf("test.day =  %s \n",test[dayI].day);
 }
 
+printf("test : %s (amount)\n",test[2].year);
 
-printf("test : %s",test[2].day);
+printf("test : %s (day)\n",test[2].day);
+
+for(int i = 0;i < verificationDesLignes1;i++){
+   printf("test : %s (name)\n",test[i].name);
+}
+
+
 
 }
 
