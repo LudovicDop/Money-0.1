@@ -19,7 +19,7 @@
 #endif
 #if defined(_WIN32) || defined(WIN32) 
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-#else
+#ifndif
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
@@ -289,11 +289,11 @@ void updateMonth(char *usr){
  
     typedef struct date date;
     struct date{
-        char *day;
-        char *month;
-        char *year;
-        char *name;
-        char *amount;
+        char day[100];
+        char month[100];
+        char year[100];
+        char name[100];
+        char amount[100];
     };
 
     FILE *fileAccount = NULL;
@@ -361,27 +361,15 @@ void updateMonth(char *usr){
 
  date test[verificationDesLignes1];
  int nameI = 0;
-/*
-    while(fgets(tmp2,100,fileAccount) != NULL){
-       
-       //printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-       //printf("Name : v1 %s n %d\n",test[nameI].name,nameI);
-      
-     
-}
-*/
+
 for(int i = 0;i < verificationDesLignes1;i++){
-    fgets(tmp2,100,fileAccount);
-     test[i].name = strtok(tmp2,":");
+     fgets(tmp2,100,fileAccount);
+     char *nameStr = strtok(tmp2,":");
+     strcpy(test[i].name,nameStr);
      printf("yep");
      printf("Name : %s valeur de i = %d\n",test[i].name,i);
      
 }
-
-
- 
-
-//ICI
 
 rewind(fileAccount);
 
@@ -404,17 +392,14 @@ int dayI = 0;
       dayI++;
       testt = fgets(tmp2,100,fileAccount);
       tmp = fgetc(fileAccount);
-      test[dayI].day = strtok(tmp2,"/");
-
+      char *dayStr = strtok(tmp2,"/");
+      strcpy(test[dayI].day,dayStr);
+      
     printf("test.day =  %s \n",test[dayI].day);
 }
 
-printf("test : %s (amount)\n",test[2].year);
-
-printf("test : %s (day)\n",test[2].day);
-
-for(int i = 0;i < verificationDesLignes1;i++){
-   printf("test : %s (name)\n",test[i].name);
+for(int i = 0;i < verificationDesLignes1+1;i++){
+   printf("test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n\n",test[i].day,test[i].month,test[i].year,test[i].name,test[i].amount);
 }
 
 
