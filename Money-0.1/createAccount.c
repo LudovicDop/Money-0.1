@@ -19,7 +19,7 @@
 #endif
 #if defined(_WIN32) || defined(WIN32) 
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-#ifndif
+#else
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
@@ -262,7 +262,6 @@ const int compteLesLignes(char *usr){
     char *s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
     char *s2 = concat(s,param);
     char *s3 = concat(s2,extension);
-
     fileAccount = fopen(s3,"r");
     char tmp = fgetc(fileAccount);
     char *string;
@@ -329,7 +328,7 @@ void updateMonth(char *usr){
     }
     int dayInt;
     sscanf(day,"%d",&dayInt);
-    //printf("Day : %d \n",dayInt);
+    printf("Day : %d \n",dayInt);
 
      fgets(tmp2,100,fileAccount);
     char *month = strtok(tmp2,d);
@@ -344,20 +343,23 @@ void updateMonth(char *usr){
 
     int monthInt;
     sscanf(month,"%d",&monthInt);
-    //printf("Month : %d \n",monthInt);
+    printf("Month : %d \n",monthInt);
 
      fgets(tmp2,100,fileAccount);
      char *year = strtok(tmp2,d);
 
     int yearInt;
     sscanf(year,"%d",&yearInt);
-    //printf("Year : %d \n",yearInt);
-
+    printf("Year : %d \n",yearInt);
+    
     rewind(fileAccount);
     fgets(tmp2,100,fileAccount);
+    
     int verificationDesLignes1 = compteLesLignes(usr);
  
-    
+    if(verificationDesLignes1 > 0){
+
+   
 
  date test[verificationDesLignes1];
  int nameI = 0;
@@ -479,7 +481,7 @@ for(int i = 1;i < verificationDesLignes1+1;i++){
    printf("test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
 }
 
-
+ }
 
 }
 
