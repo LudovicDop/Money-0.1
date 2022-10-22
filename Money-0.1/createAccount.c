@@ -398,8 +398,32 @@ int dayI = 0;
     printf("test.day =  %s \n",test[dayI].day);
 }
 
+rewind(fileAccount);
+char *fgetsMonth = fgets(tmp2,100,fileAccount);
+int tmpMonth = 0;
+tmp = fgetc(fileAccount);
+int monthI = 0;
+
+printf("bien\n");
+while(tmp != EOF){
+printf("super\n");
+tmpMonth = 0;
+while(tmp != '/' && tmpMonth < 2){
+    tmp = fgetc(fileAccount);
+    if(tmp == '/'){
+        tmpMonth++;
+    }
+}
+monthI++;
+fgetsMonth = fgets(tmp2,100,fileAccount);
+tmp = fgetc(fileAccount);
+char *monthStr = strtok(tmp2,"/");
+strcpy(test[monthI].month,monthStr);
+printf("le mois : %s \n",test[monthI].month);
+}
+
 for(int i = 0;i < verificationDesLignes1+1;i++){
-   printf("test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n\n",test[i].day,test[i].month,test[i].year,test[i].name,test[i].amount);
+   printf("test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
 }
 
 
