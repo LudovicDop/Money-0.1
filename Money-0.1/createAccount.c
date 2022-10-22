@@ -418,11 +418,64 @@ monthI++;
 fgetsMonth = fgets(tmp2,100,fileAccount);
 tmp = fgetc(fileAccount);
 char *monthStr = strtok(tmp2,"/");
+//printf("le mois : %s \n",test[monthI].month);
 strcpy(test[monthI].month,monthStr);
-printf("le mois : %s \n",test[monthI].month);
+printf("le mois : %s (%d)\n",test[monthI].month,monthI);
 }
 
-for(int i = 0;i < verificationDesLignes1+1;i++){
+rewind(fileAccount);
+char *fgetsYear = fgets(tmp2,100,fileAccount);
+int tmpYear = 0;
+tmp = fgetc(fileAccount);
+int yearI = 0;
+
+printf("bien\n");
+while(tmp != EOF){
+printf("super\n");
+tmpYear = 0;
+while(tmp != '/' || tmpYear < 2){
+    tmp = fgetc(fileAccount);
+    if(tmp == '/'){
+        tmpYear++;
+    }
+}
+yearI++;
+fgetsYear = fgets(tmp2,100,fileAccount);
+tmp = fgetc(fileAccount);
+char *yearStr = strtok(tmp2,":");
+strcpy(test[yearI].year,yearStr);
+printf("le annee : %s \n",test[yearI].year);
+}
+
+rewind(fileAccount);
+char *fgetsAmount = fgets(tmp2,100,fileAccount);
+int tmpAmount = 0;
+tmp = fgetc(fileAccount);
+int amountI = 0;
+
+printf("bien\n");
+while(amountI < verificationDesLignes1){
+printf("super\n");
+tmpAmount = 0;
+while(tmp != ':' || tmpAmount < 2){
+    tmp = fgetc(fileAccount);
+    if(tmp == ':'){
+        tmpAmount++;
+    }
+}
+amountI++;
+fgetsAmount = fgets(tmp2,100,fileAccount);
+printf("da : %s\n",tmp2);
+//tmp = fgetc(fileAccount);
+char *amountStr = strtok(tmp2," ");
+strcpy(test[amountI].amount,amountStr);
+
+printf("le amount : %s \n",test[amountI].amount);
+}
+
+
+printf("nbre ligne : %d\n",verificationDesLignes1);
+for(int i = 1;i < verificationDesLignes1+1;i++){
    printf("test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
 }
 
