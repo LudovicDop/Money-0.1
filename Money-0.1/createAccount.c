@@ -19,7 +19,8 @@
 #endif
 #if defined(_WIN32) || defined(WIN32) 
 #define PATH "C:/Users/Ludov/Desktop/Money-0.1/Money-0.1/account_file/"
-#else
+#endif
+#ifdef linux
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
 
