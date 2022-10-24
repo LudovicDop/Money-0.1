@@ -457,14 +457,22 @@ char *amountStr = strtok(tmp2," ");
 strcpy(test[amountI].amount,amountStr);
 }
 
-
+/*
 printf("nbre ligne : %d\n",verificationDesLignes1);
 for(int i = 1;i < verificationDesLignes1+1;i++){
    printf("Result : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
 }
-
+*/
 for(int i = 1;i<verificationDesLignes1+1;i++){
-   
+   int xDay;
+   sscanf(test[i].day,"%d",&xDay);
+   int xMonth;
+   sscanf(test[i].month,"%d",&xMonth);
+   int xYear;
+   sscanf(test[i].year,"%d",&xYear);
+   int xAmount;
+   sscanf(test[i].amount,"%d",&xAmount);
+   printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay,xMonth,xYear,test[i-1].name,xAmount);
 }
 
  }
