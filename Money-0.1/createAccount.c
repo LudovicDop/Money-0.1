@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-/*
+
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
@@ -23,8 +23,8 @@
 #ifdef linux
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
-*/
-#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+
+//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -53,7 +53,6 @@ void update(char *name){
     fileMonth = fopen(finalNameParam,"a");
     fclose(fileMonth);
     fileMonth = fopen(finalNameParam,"r+");
-    //tmpFile = fopen(tmpFinalNameParam, "w");
 
     time_t now = time(NULL); //Chargement de la date actuelle
     struct tm *tm_time = localtime(&now);
@@ -63,10 +62,7 @@ void update(char *name){
     rewind(fileMonth);
         
     fprintf(fileMonth,"Last update :%d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
-    //ici bug @  
     fclose(fileMonth);
-
-    //first second
 
     char curr;
     int del,line_number = 0;
@@ -95,17 +91,12 @@ void update(char *name){
             curr = getc(fileMonth);
             if(curr == EOF) break;
 
-       /* if(del == line_number){
-            line_number++;
-            printf("tac");
-        }*/
     }
 
 
     fclose(fileMonth);
     fclose(tmpFile);
 
-    //if(remove(finalNameParam) == 0) printf("=> %s avec succes!",finalNameParam) ;
     remove(finalNameParam);
     rename(tmpFinalNameParam,nomRename2);
     
@@ -315,8 +306,6 @@ void updateMonth(char *usr){
     char tmp2[100];
     fgets(tmp2,100,fileAccount);
     
-    //printf("here :%s \n",tmp2);
-    
     char d[] = "/";
     int i = 0;
     char *day = strtok(tmp2,d);
@@ -381,9 +370,6 @@ int dayI = 0;
 
     while(tmp != ':'){
         tmp = fgetc(fileAccount);
-        /*if(tmp == ':'){
-
-        }*/
     }
       dayI++;
       testt = fgets(tmp2,100,fileAccount);
@@ -411,7 +397,6 @@ monthI++;
 fgetsMonth = fgets(tmp2,100,fileAccount);
 tmp = fgetc(fileAccount);
 char *monthStr = strtok(tmp2,"/");
-//printf("le mois : %s \n",test[monthI].month);
 strcpy(test[monthI].month,monthStr);
 }
 
@@ -457,33 +442,9 @@ char *amountStr = strtok(tmp2," ");
 strcpy(test[amountI].amount,amountStr);
 }
 
-/*
-printf("nbre ligne : %d\n",verificationDesLignes1);
-for(int i = 1;i < verificationDesLignes1+1;i++){
-   printf("Result : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
-}
-*/
-/*
-for(int i = 1;i<verificationDesLignes1+1;i++){
-   int xDay = 0;
-   sscanf(test[i].day,"%d",&xDay);
-   int xMonth = 0;
-   sscanf(test[i].month,"%d",&xMonth);
-   int xYear = 0;
-   sscanf(test[i].year,"%d",&xYear);
-   int xAmount = 0;
-   sscanf(test[i].amount,"%d",&xAmount);
-   printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay,xMonth,xYear,test[i-1].name,xAmount);
-}
- */
-
-        //verificationDesLignes1 = verificationDesLignes1 + 1;
-        
-        
         verificationDesLignes1 = compteLesLignes(usr);
         printf("nbre ligne : %d\n",verificationDesLignes1);
         for(int i = 1;i<verificationDesLignes1+1;i++){
-            printf("succes");
            
            int xDay[verificationDesLignes1+1];
            sscanf(test[i].day,"%d",&xDay[i]);
