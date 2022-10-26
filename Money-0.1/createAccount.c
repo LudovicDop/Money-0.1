@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-
+/*
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
@@ -23,8 +23,8 @@
 #ifdef linux
 #define PATH "/home/debian/Desktop/Money-0.1/Money-0.1/account_file/"
 #endif
-
-//#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
+*/
+#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
@@ -239,7 +239,7 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
-void month(char *nom,char *date,int somme, char *name){
+void month(char *nom,char *date,int *somme, char *name){
         
         FILE *fileAccount = NULL;
         char *chemin = PATH; //Chemin de stockage
@@ -250,7 +250,7 @@ void month(char *nom,char *date,int somme, char *name){
         char *s3 = concat(s2,extension);
         fileAccount = fopen(s3, "a"); //On lit le fichier pour voir s'il existe ou non
       
-         fprintf(fileAccount,"\n%s:%s:%d",nom,date,somme);
+         fprintf(fileAccount,"\n%s:%s:%d ",nom,date,somme);
 
          fclose(fileAccount);
 }
@@ -463,17 +463,39 @@ for(int i = 1;i < verificationDesLignes1+1;i++){
    printf("Result : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[i].day,test[i].month,test[i].year,test[i-1].name,test[i].amount);
 }
 */
+/*
 for(int i = 1;i<verificationDesLignes1+1;i++){
-   int xDay;
+   int xDay = 0;
    sscanf(test[i].day,"%d",&xDay);
-   int xMonth;
+   int xMonth = 0;
    sscanf(test[i].month,"%d",&xMonth);
-   int xYear;
+   int xYear = 0;
    sscanf(test[i].year,"%d",&xYear);
-   int xAmount;
+   int xAmount = 0;
    sscanf(test[i].amount,"%d",&xAmount);
    printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay,xMonth,xYear,test[i-1].name,xAmount);
 }
+ */
+
+        //verificationDesLignes1 = verificationDesLignes1 + 1;
+        
+        
+        verificationDesLignes1 = compteLesLignes(usr);
+        printf("nbre ligne : %d\n",verificationDesLignes1);
+        for(int i = 1;i<verificationDesLignes1+1;i++){
+            printf("succes");
+           
+           int xDay[verificationDesLignes1+1];
+           sscanf(test[i].day,"%d",&xDay[i]);
+           int xMonth[verificationDesLignes1+1];
+           sscanf(test[i].month,"%d",&xMonth[i]);
+           int xYear[verificationDesLignes1+1];
+           sscanf(test[i].year,"%d",&xYear[i]);
+           int xAmount[verificationDesLignes1+1];
+           sscanf(test[i].amount,"%d",&xAmount[i]);
+           printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
+            
+        }
 
  }
 

@@ -18,4 +18,5 @@ void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme,char *name);
 void updateMonth(char *usr);
 
+
 #endif /* moneyMainFunction_h */
