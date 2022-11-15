@@ -1,8 +1,2 @@
-1000
-1100 =>  1000 + 100 ( Reason : Perception de la caf ) 22/10/22
-1200 =>  1100 + 100 ( Reason : ceci est un test ) 24/10/22
-1280 =>  1200 + 80 ( Reason : La caf ) 24/10/22
-1300 =>  1280 + 20 ( Reason : test ) 24/10/22
-1301 =>  1300 + 1 ( Reason : test ) 24/10/22
-1401 =>  1301 + 100 ( Reason : Test ) 24/10/22
-1400 =>  1401 + -1 ( Reason : test ) 24/10/22
+1400
+1500 =>  1400 + 100 ( Reason : Perception de la CAF ) 13/11/22
