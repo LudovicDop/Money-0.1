@@ -97,11 +97,20 @@ void update(char *name){
     fclose(fileMonth);
     fclose(tmpFile);
 
-    remove(finalNameParam);
-    rename(tmpFinalNameParam,nomRename2);
-    
 
+    if(remove(finalNameParam) == 0){
+        printf("succes for remove function :)\n");
+        printf("%s\n",finalNameParam);
+    }else{
+        printf("error for remove function :(\n");
+        printf("%s\n",finalNameParam);
+    }
 
+    if(rename(tmpFinalNameParam,nomRename2) == 0){
+        printf("succes for rename function :)\n");
+    }else{
+        printf("error for rename function :(\n");
+    }
 
 }
 
@@ -174,6 +183,9 @@ char *reading(char *nameAccount,char *usr)
         char *comment = strtok(tmp,d);
         printf("             *** Loading bank account *** \n\n");
         printf("             %s do you have => %s $\n\n",usr,tmp);
+ 
+        fclose(fileAccount); //MODIF ICI
+
         return tmp;
         
     }
@@ -270,8 +282,9 @@ do{
    if (ch == '\n') ++newline_counter;
 } while ((ch = getc(fileAccount)) != EOF);
 
-return newline_counter;
+fclose(fileAccount);
 
+return newline_counter;
 
 }
 
@@ -445,6 +458,9 @@ void updateMonth(char *usr){
             //tmp = fgetc(fileAccount);
             char *amountStr = strtok(tmp2," ");
             strcpy(test[amountI].amount,amountStr);
+
+            fclose(fileAccount);
+            fclose(fileTmp);
         }
         
         verificationDesLignes1 = compteLesLignes(usr);
@@ -455,7 +471,8 @@ void updateMonth(char *usr){
         rewind(fileAccount);
         fgets(tmp2, 100,fileAccount);
         for(int i = 1;i<verificationDesLignes1+1;i++){
-            printf("ici2");
+            //printf("ici2");
+            /*
             int xDay[verificationDesLignes1];
             sscanf(test[i].day,"%d",&xDay[i]);
             int xMonth[verificationDesLignes1];
@@ -465,7 +482,7 @@ void updateMonth(char *usr){
             int xAmount[verificationDesLignes1];
             sscanf(test[i].amount,"%d",&xAmount[i]);
             printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
-            
+            */
             /*
             char curr;
             
@@ -489,7 +506,9 @@ void updateMonth(char *usr){
             
             
         }
+        
     }
-
+    fclose(fileAccount);
+    fclose(fileTmp);
 }
 
