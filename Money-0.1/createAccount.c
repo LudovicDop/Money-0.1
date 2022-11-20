@@ -312,7 +312,7 @@ void updateMonth(char *usr){
     char *s2Tmp = concat(s, paramTmp);
     char *s3 = concat(s2,extension);
     char *s3Tmp = concat(s2Tmp, extension);
-  
+    
     fileAccount = fopen(s3,"r");
     fileTmp = fopen(s3Tmp, "w");
     char tmp = fgetc(fileAccount);
@@ -361,12 +361,12 @@ void updateMonth(char *usr){
     fgets(tmp2,100,fileAccount);
     
     int verificationDesLignes1 = compteLesLignes(usr);
- 
+    
     if(verificationDesLignes1 > 0){
         
         
-        
-        date test[verificationDesLignes1];
+        date test[100];
+        //date test[verificationDesLignes1]; 
         int nameI = 0;
         
         for(int i = 0;i < verificationDesLignes1;i++){
@@ -444,10 +444,11 @@ void updateMonth(char *usr){
         int tmpAmount = 0;
         tmp = fgetc(fileAccount);
         int amountI = 0;
-        
+
         while(amountI < verificationDesLignes1){
             tmpAmount = 0;
-            while(tmp != ':' || tmpAmount < 2){
+            while(tmp != ':' && tmpAmount < 2){
+        
                 tmp = fgetc(fileAccount);
                 if(tmp == ':'){
                     tmpAmount++;
@@ -465,24 +466,24 @@ void updateMonth(char *usr){
         
         verificationDesLignes1 = compteLesLignes(usr);
         printf("nbre ligne : %d\n",verificationDesLignes1);
-        printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
-        fclose(fileAccount);
+        //printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
         fgets(tmp2, 100,fileAccount);
+        
+       
         for(int i = 1;i<verificationDesLignes1+1;i++){
-            //printf("ici2");
-            /*
-            int xDay[verificationDesLignes1];
+            
+            int xDay[100];
             sscanf(test[i].day,"%d",&xDay[i]);
-            int xMonth[verificationDesLignes1];
+            int xMonth[100];
             sscanf(test[i].month,"%d",&xMonth[i]);
-            int xYear[verificationDesLignes1];
+            int xYear[100];
             sscanf(test[i].year,"%d",&xYear[i]);
-            int xAmount[verificationDesLignes1];
+            int xAmount[100];
             sscanf(test[i].amount,"%d",&xAmount[i]);
             printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
-            */
+            
             /*
             char curr;
             
@@ -499,16 +500,12 @@ void updateMonth(char *usr){
                 if(curr == EOF)break;
             }
             */
-             //POUR METTRE A JOUR LES DATES DU MONTH
-            //fprintf(fileAccount, "valide");
-           // fgets(tmp2, 100,fileAccount);
-            //fprintf(fileAccount,"\n%s:%d/%d/%d:%d ",test[i-1].name,dayInt,monthInt,yearInt,xAmount[i]);
-            
-            
+    
         }
-        
+
+        fclose(fileAccount);
+        fclose(fileTmp);
+
     }
-    fclose(fileAccount);
-    fclose(fileTmp);
 }
 
