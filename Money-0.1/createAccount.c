@@ -472,7 +472,7 @@ void updateMonth(char *usr){
             fclose(fileTmp);
         
         verificationDesLignes1 = compteLesLignes(usr);
-        printf("nbre ligne : %d\n",verificationDesLignes1);
+        printf("Nombre d'abonnements mensuels : %d\n",verificationDesLignes1);
         //printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
@@ -488,24 +488,8 @@ void updateMonth(char *usr){
             sscanf(test[i].year,"%d",&xYear[i]);
             int xAmount[100];
             sscanf(test[i].amount,"%d",&xAmount[i]);
-            printf("Result : %d (day) %d (month) %d (year) %s (name) %d (amount)...\n",xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
+            printf("** Subscription number %d : %d (day) %d (month) %d (year) %s (name) %d $ (amount) **\n",i,xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
             
-            /*
-            char curr;
-            
-            curr = getc(fileAccount);
-            if (curr!=EOF) {
-                while (curr != 'L') {
-                    curr = getc(fileAccount);
-                }
-            }
-            
-            while (curr != EOF) {
-                putc(curr, fileTmp);
-                curr = getc(fileAccount);
-                if(curr == EOF)break;
-            }
-            */
     
         }
 

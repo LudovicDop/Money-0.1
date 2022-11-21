@@ -42,7 +42,7 @@ int main(int argc, const char * argv[]) {
                 updateMonth(login);
                 char choice2 = ' ';
                 //Param by month NOM:dd/mm/yy:somme
-                printf("Do you want to add something ? (Y/N) or (x)\n");
+                printf("\nDo you want to add something ? (Y/N) or (x)\n");
                 update(login);
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
