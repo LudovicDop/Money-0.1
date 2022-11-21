@@ -99,7 +99,7 @@ void update(char *name){
 
 
     if(remove(finalNameParam) == 0){
-        printf("succes for remove function :)\n");
+        printf("\n\nsucces for remove function :)\n");
         printf("%s\n",finalNameParam);
     }else{
         printf("error for remove function :(\n");
@@ -108,8 +108,10 @@ void update(char *name){
 
     if(rename(tmpFinalNameParam,nomRename2) == 0){
         printf("succes for rename function :)\n");
+        printf("%s\n",tmpFinalNameParam);
     }else{
         printf("error for rename function :(\n");
+        printf("%s\n",tmpFinalNameParam);
     }
 
 }
@@ -470,7 +472,6 @@ void updateMonth(char *usr){
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
         fgets(tmp2, 100,fileAccount);
-        
        
         for(int i = 1;i<verificationDesLignes1+1;i++){
             
@@ -503,9 +504,9 @@ void updateMonth(char *usr){
     
         }
 
+    }
+        printf("fclose okay");
         fclose(fileAccount);
         fclose(fileTmp);
-
-    }
 }
 
