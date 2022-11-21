@@ -446,10 +446,10 @@ void updateMonth(char *usr){
         int tmpAmount = 0;
         tmp = fgetc(fileAccount);
         int amountI = 0;
-
+     
         while(amountI < verificationDesLignes1){
             tmpAmount = 0;
-            while(tmp != ':' && tmpAmount < 2){
+            while(tmp != ':' || tmpAmount < 2){
         
                 tmp = fgetc(fileAccount);
                 if(tmp == ':'){
@@ -457,14 +457,19 @@ void updateMonth(char *usr){
                 }
             }
             amountI++;
+
             fgetsAmount = fgets(tmp2,100,fileAccount);
-            //tmp = fgetc(fileAccount);
+
             char *amountStr = strtok(tmp2," ");
             strcpy(test[amountI].amount,amountStr);
 
+            
+            //tmp = fgetc(fileAccount);
+        
+        }
+
             fclose(fileAccount);
             fclose(fileTmp);
-        }
         
         verificationDesLignes1 = compteLesLignes(usr);
         printf("nbre ligne : %d\n",verificationDesLignes1);
@@ -505,7 +510,6 @@ void updateMonth(char *usr){
         }
 
     }
-        printf("fclose okay");
         fclose(fileAccount);
         fclose(fileTmp);
 }
