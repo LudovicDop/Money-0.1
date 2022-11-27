@@ -25,7 +25,7 @@
 #endif
 
 //#define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
-char* concat(const char *s1, const char *s2)
+char* concat(const char *s1,const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
     // in real code you would check for errors in malloc here
