@@ -12,7 +12,7 @@
 #include <time.h>
 #include <assert.h>
 #include <stdbool.h>
-
+#include "moneyMainFunction.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
 #define PATH "/Users/ludovicdoppler/Desktop/Money-0.1/Money-0.1/account_file/"
@@ -61,7 +61,7 @@ void update(char *name){
 
     rewind(fileMonth);
         
-    fprintf(fileMonth,"Last update :%d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    fprintf(fileMonth,"Last update :%d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year+1900);
     fclose(fileMonth);
                                              
     char curr;
@@ -96,23 +96,6 @@ void update(char *name){
 
     fclose(fileMonth);
     fclose(tmpFile);
-
-
-    if(remove(finalNameParam) == 0){
-        printf("\n\nsucces for remove function :)\n");
-        printf("%s\n",finalNameParam);
-    }else{
-        printf("error for remove function :(\n");
-        printf("%s\n",finalNameParam);
-    }
-
-    if(rename(tmpFinalNameParam,nomRename2) == 0){
-        printf("succes for rename function :)\n");
-        printf("%s\n",tmpFinalNameParam);
-    }else{
-        printf("error for rename function :(\n");
-        printf("%s\n",tmpFinalNameParam);
-    }
 
 }
 
@@ -244,7 +227,7 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
-void month(char *nom,char *date,int *somme, char *name){
+void month(char *nom,char *date,int somme, char *name){
         
         FILE *fileAccount = NULL;
         char *chemin = PATH; //Chemin de stockage
@@ -290,17 +273,98 @@ return newline_counter;
 
 }
 
-
-void updateMonth(char *usr){
- 
-    typedef struct date date;
-    struct date{
+    typedef struct date2 date2;
+    struct date2{
         char day[100];
         char month[100];
         char year[100];
         char name[100];
         char amount[100];
     };
+
+    date2 test[100];
+
+/*Cette fonction permet de mettre à jour les abonnements mensuels dans le compte correspondant*/
+void addSubscription(char *nomUtilisateur){
+
+    /*Déclaration de mes variables*/
+    FILE *file = NULL;
+    date dateDeDepart,dateDeFin;
+    char *chemin = malloc(sizeof(PATH));
+    strcpy(chemin,PATH);
+    char extensionDuFichierConfigMonthTxt[18] = "_configMonth.txt";
+    char cheminFinalVersConfigMonth[1000];
+    char currentDate[20];
+    char abonnementDate[20];
+    char bufferDateActuelle[200];
+    char bufferAbonnementMensuel[200];
+    char ch = getc(file);
+    char separateur[2] = ":";
+    int verificationDesLignes = compteLesLignes(nomUtilisateur);
+    int mois = 8;
+
+    /*Je concat nomUtilisateur avec l'extension du fichier configMonth.txt*/
+    strcpy(cheminFinalVersConfigMonth,concat(nomUtilisateur,extensionDuFichierConfigMonthTxt));
+    strcpy(cheminFinalVersConfigMonth,concat(chemin,cheminFinalVersConfigMonth));
+
+    /*Je passe en mode lecture sur mon fichier X_configMonth.txt*/
+    file = fopen(cheminFinalVersConfigMonth,"r");
+
+    /*Si il n'y a aucun problème de lecture alors je continue*/
+    if(file){
+
+        /*On parcourt le fichier x_configMonth.txt avec le char ch, tant qu'il n'est pas égal à ":" on continue*/
+        while(ch != ':'){
+            ch = getc(file);
+        }
+        /*Lecture de la première ligne de mon  fichier X_configMonth.txt pour obtenir la date actuelle (en partant de ":") et stocker dans buffer*/
+        fgets(bufferDateActuelle,100,file);
+
+        /*Tant que i est < au nombres d'abonnements on continue*/
+        for(int i = 0;i<verificationDesLignes;i++){
+            
+            /*On parcourt le fichier x_configMonth.txt avec le char ch, tant qu'il n'est pas égal à ":" on continue*/
+            /*On actualise la variable ch pour éviter de stocker le ":" précédent et pouvoir passer dans le boucle while*/
+            ch = getc(file);
+
+            while(ch != ':'){
+                
+                ch = getc(file);
+            }
+
+            /*On s'occupe maintenant de récupérer les abonnements mensuels on passe donc à la ligne suivante*/
+            fgets(bufferAbonnementMensuel,100,file);
+
+            /*J'enlève ce qui viens après les ":" pour récupérer uniquement la date*/
+            strcpy(bufferAbonnementMensuel,strtok(bufferAbonnementMensuel,separateur));
+            
+            dateDeDepart = sepMonth(bufferAbonnementMensuel);
+            dateDeFin = sepMonth(bufferDateActuelle);
+    
+            mois = putInOrder(dateDeDepart,dateDeFin);
+            
+            printf("please : %d\n",mois);
+
+            //printf("date abonnement 1 : %s!\n%s!",bufferAbonnementMensuel,bufferDateActuelle);
+            //,test[i+1].amount,test[i].name
+            
+        }
+
+    }
+    /*Si il y a un problème de lecture je ferme le programme*/
+    else{
+        exit(EXIT_FAILURE);
+    }
+
+    /*Je ferme le fichier*/
+    fclose(file);
+
+    /*Je libère la mémoire*/
+    free(chemin);
+    
+}
+
+void updateMonth(char *usr){
 
     FILE *fileAccount,*fileTmp = NULL;
     char *chemin = PATH;
@@ -366,8 +430,6 @@ void updateMonth(char *usr){
     
     if(verificationDesLignes1 > 0){
         
-        
-        date test[100];
         //date test[verificationDesLignes1]; 
         int nameI = 0;
         
@@ -494,7 +556,13 @@ void updateMonth(char *usr){
         }
 
     }
+
         fclose(fileAccount);
         fclose(fileTmp);
+
+        /*J'appel ma fonction addSubscription pour pouvoir mettre à jour les abonnements mensuels dans le compte correspondant*/
+        addSubscription(usr);
 }
+
+
 

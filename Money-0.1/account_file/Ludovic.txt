@@ -1,6 +1,5 @@
 1400
-1500 =>  1400 + 100 ( Reason : Perception de la caf ) 21/11/22
-1600 =>  1500 + 100 ( Reason : Perception de la caf ) 21/11/22
-1723 =>  1600 + 123 ( Reason : test ) 23/11/22
-1725 =>  1723 + 2 ( Reason : test ) 23/11/22
-1825 =>  1725 + 100 ( Reason : test ) 27/11/22
+1500 =>  1400 + 100 ( Reason : TEST TEST TEST ) 27/11/22
+1510 =>  1500 + 10 ( Reason : TEST 2 ) 27/11/22
+1500 =>  1510 + -10 ( Reason : Test 3 ) 27/11/22
+1730 =>  1500 + 230 ( Reason : TEst ) 28/11/22

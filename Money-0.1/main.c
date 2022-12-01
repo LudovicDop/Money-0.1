@@ -11,6 +11,7 @@
 #include <time.h>
 #define MAX_NAME_SIZE 256
 #define FLUSH while(getchar() != '\n');
+
 int main(int argc, const char * argv[]) {
 
     char choice = 'Q';

@@ -8,6 +8,14 @@
 #ifndef moneyMainFunction_h
 #define moneyMainFunction_h
 
+/*Initialisation de ma structure date*/
+    typedef struct date date;
+        struct date{
+            int jour;
+            int mois;
+            int annee;
+        };
+
 /* Mes fonctions */
 void update(char *name);
 char *strremove(char *str, const char *sub);
@@ -15,8 +23,14 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
 char* concat(const char *s1, const char *s2);
 char *reading(char *nameAccount,char *usr);
 void initialisationNouveauCompte(char *name,char *amount);
-void month(char *nom,char *date,int somme,char *name);
+void month(char *nom,char *date,int somme, char *name);
 void updateMonth(char *usr);
 
+
+/* Mes fonctions */
+date sepMonth(char *date);
+int nombreDeJourDansUnMois(date moisSource);
+int putInOrder(date dateDeDebut,date dateDeFin);
+int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
 
 #endif /* moneyMainFunction_h */
