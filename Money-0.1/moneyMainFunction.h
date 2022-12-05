@@ -19,9 +19,9 @@
 /* Mes fonctions */
 void update(char *name);
 char *strremove(char *str, const char *sub);
-void addAmount(char *nameAccount,char *usr,int amountAdd,char *why);
+void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMode);
 char* concat(const char *s1, const char *s2);
-char *reading(char *nameAccount,char *usr);
+char *reading(char *nameAccount,char *usr,int silentMode);
 void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme, char *name);
 void updateMonth(char *usr);

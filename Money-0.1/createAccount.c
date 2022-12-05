@@ -97,6 +97,17 @@ void update(char *name){
     fclose(fileMonth);
     fclose(tmpFile);
 
+    if(remove(finalNameParam) == 0){
+       
+    }else{
+        exit(EXIT_FAILURE);
+    }
+    if(rename(tmpFinalNameParam,nomRename2) == 0){
+       
+    }else{
+        exit(EXIT_FAILURE);
+    }
+
 }
 
 void initialisationNouveauCompte(char *valeurDuCompte,char *name)
@@ -145,10 +156,11 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
     
 }
 
-char *reading(char *nameAccount,char *usr)
+char *reading(char *nameAccount,char *usr,int silentMode)
 {
-    char *tmp = malloc(sizeof(tmp));
-    char *name = malloc(sizeof(name));
+    char *tmp = malloc(150);
+    char *name = malloc(200);
+    char *comment = malloc(200);
     name = nameAccount;
    
     FILE *fileAccount = NULL;
@@ -163,32 +175,32 @@ char *reading(char *nameAccount,char *usr)
         return NULL;
     }
     else{
-        while(fgets(tmp, 100, fileAccount) != NULL);
-        char d[] = " ";
-        char *comment = strtok(tmp,d);
+        while(fgets(tmp, 150, fileAccount) != NULL);
+        char d[2] = " ";
+        comment = strtok(tmp,d);
+
+        //if(silentMode == 0){
         printf("             *** Loading bank account *** \n\n");
         printf("             %s do you have => %s $\n\n",usr,tmp);
- 
+        //}
+
         fclose(fileAccount); //MODIF ICI
+
+        //free(name);
 
         return tmp;
         
     }
     
-
-
-
-   //free(tmp);
-  // free(name);
 }
 
-void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
+void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMode)
 {
-    
+
     char *name;
     name = nameAccount;
     
-    char *tmp = reading(nameAccount, usr);
+    char *tmp = reading(nameAccount, usr,silentMode);
     FILE *fileAccount = NULL;
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
@@ -208,10 +220,11 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why)
     struct tm *tm_time = localtime(&now);
     
     fprintf(fileAccount, cNewWithReturn); //HERE
-    
+    /*Mode silent activé si x == 1*/
+   
     fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
     printf("         *** %s do you have now %d $ ***\n\n",usr,result);
-
+    
     fclose(fileAccount);
     
 }
@@ -286,14 +299,17 @@ return newline_counter;
 
 /*Cette fonction permet de mettre à jour les abonnements mensuels dans le compte correspondant*/
 void addSubscription(char *nomUtilisateur){
-
+    
     /*Déclaration de mes variables*/
-    FILE *file = NULL;
+    FILE *file = NULL; //crash ici si j'ajoute un autre FILE
+    FILE *fileToAdd = NULL;
     date dateDeDepart,dateDeFin;
     char *chemin = malloc(sizeof(PATH));
     strcpy(chemin,PATH);
     char extensionDuFichierConfigMonthTxt[18] = "_configMonth.txt";
+    char extensionDuFichierToAdd[100] = ".txt";
     char cheminFinalVersConfigMonth[1000];
+    char cheminFinalVersToAdd[1000];
     char currentDate[20];
     char abonnementDate[20];
     char bufferDateActuelle[200];
@@ -301,11 +317,21 @@ void addSubscription(char *nomUtilisateur){
     char ch = getc(file);
     char separateur[2] = ":";
     int verificationDesLignes = compteLesLignes(nomUtilisateur);
-    int mois = 8;
-
+    int mois;
+    int calculDuMultiplicateurDePaye;
+    int convertirTestAmountEnInt;
+    char pseudoTxt[100];
+    char phraseTypeAddAbonnement[100];
+    char bufferMonth[30];
     /*Je concat nomUtilisateur avec l'extension du fichier configMonth.txt*/
+
     strcpy(cheminFinalVersConfigMonth,concat(nomUtilisateur,extensionDuFichierConfigMonthTxt));
     strcpy(cheminFinalVersConfigMonth,concat(chemin,cheminFinalVersConfigMonth));
+
+    strcpy(cheminFinalVersToAdd,concat(nomUtilisateur,extensionDuFichierToAdd));
+    strcpy(cheminFinalVersToAdd,concat(chemin,extensionDuFichierToAdd));
+
+    strcpy(pseudoTxt,concat(nomUtilisateur,extensionDuFichierToAdd));
 
     /*Je passe en mode lecture sur mon fichier X_configMonth.txt*/
     file = fopen(cheminFinalVersConfigMonth,"r");
@@ -338,16 +364,28 @@ void addSubscription(char *nomUtilisateur){
             /*J'enlève ce qui viens après les ":" pour récupérer uniquement la date*/
             strcpy(bufferAbonnementMensuel,strtok(bufferAbonnementMensuel,separateur));
             
-            dateDeDepart = sepMonth(bufferAbonnementMensuel);
-            dateDeFin = sepMonth(bufferDateActuelle);
-    
-            mois = putInOrder(dateDeDepart,dateDeFin);
-            
-            printf("please : %d\n",mois);
+            /*On récupère les dates des différents abonnements pour les séparers dans une variable date*/
+            dateDeDepart = sepMonth(bufferDateActuelle);
+            dateDeFin = sepMonth(bufferAbonnementMensuel);
 
-            //printf("date abonnement 1 : %s!\n%s!",bufferAbonnementMensuel,bufferDateActuelle);
-            //,test[i+1].amount,test[i].name
+            /*On récupère les mois de différence entre la date actuelle et la dernière actualisation de l'abonnement X*/
+            mois = putInOrder(dateDeDepart,dateDeFin);
+
+            sscanf(test[i+1].amount,"%d",&convertirTestAmountEnInt);
+            calculDuMultiplicateurDePaye = mois * convertirTestAmountEnInt;
             
+            sprintf(bufferMonth,"%d",mois);
+
+            strcpy(phraseTypeAddAbonnement,"Ceci viens de votre abonnement ");
+            strcpy(phraseTypeAddAbonnement,concat(phraseTypeAddAbonnement,test[i].name));
+            strcpy(phraseTypeAddAbonnement,concat(phraseTypeAddAbonnement," pour une durée de "));
+            strcpy(phraseTypeAddAbonnement,concat(phraseTypeAddAbonnement,bufferMonth));
+            strcpy(phraseTypeAddAbonnement,concat(phraseTypeAddAbonnement," mois!"));
+            
+            /*On ajoute une somme d'argent dans le compte current uniquement si le montant est différent de 0*/
+            if(calculDuMultiplicateurDePaye != 0)
+            addAmount(pseudoTxt,nomUtilisateur,calculDuMultiplicateurDePaye,phraseTypeAddAbonnement,1);
+
         }
 
     }
@@ -357,6 +395,7 @@ void addSubscription(char *nomUtilisateur){
     }
 
     /*Je ferme le fichier*/
+    fclose(fileToAdd);
     fclose(file);
 
     /*Je libère la mémoire*/

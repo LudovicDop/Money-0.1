@@ -39,7 +39,7 @@ int main(int argc, const char * argv[]) {
             scanf("%s",login);
             finalName = concat(login, extension);
             
-            if(reading(finalName,login) != NULL){
+            if(reading(finalName,login,0) != NULL){
                 updateMonth(login);
                 char choice2 = ' ';
                 //Param by month NOM:dd/mm/yy:somme
@@ -64,7 +64,7 @@ int main(int argc, const char * argv[]) {
                         printf("error");
                     }
                     
-                    addAmount(finalName,login,money,why);
+                    addAmount(finalName,login,money,why,0);
                     free(why);
                   
                     
