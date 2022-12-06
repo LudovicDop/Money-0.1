@@ -1,1 +1,11 @@
 1400
+1500 =>  1400 + 100 ( Reason : Ceci est un test ) 5/12/22
+1445 =>  1500 + -55 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 11 mois! ) 5/12/22
+1390 =>  1445 + -55 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 11 mois! ) 5/12/22
+1335 =>  1390 + -55 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 11 mois! ) 5/12/22
+1410 =>  1335 + 75 ( Reason : test ) 5/12/22
+1400 =>  1410 + -10 ( Reason : test ) 5/12/22 
+1180 =>  1400 + -220 ( Reason : Ceci viens de votre abonnement NETFLIX pour une durée de 11 mois! ) 6/12/22
+960 =>  1180 + -220 ( Reason : Ceci viens de votre abonnement NETFLIX pour une durée de 11 mois! ) 6/12/22
+740 =>  960 + -220 ( Reason : Ceci viens de votre abonnement NETFLIX pour une durée de 11 mois! ) 6/12/22
+720 =>  740 + -20 ( Reason : Ceci viens de votre abonnement NETFLIX pour une durée de 1 mois! ) 6/12/22

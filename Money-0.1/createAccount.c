@@ -180,7 +180,7 @@ char *reading(char *nameAccount,char *usr,int silentMode)
         comment = strtok(tmp,d);
 
         //if(silentMode == 0){
-        printf("             *** Loading bank account *** \n\n");
+        printf("\n             *** Loading bank account *** \n\n");
         printf("             %s do you have => %s $\n\n",usr,tmp);
         //}
 
@@ -372,6 +372,7 @@ void addSubscription(char *nomUtilisateur){
             mois = putInOrder(dateDeDepart,dateDeFin);
 
             sscanf(test[i+1].amount,"%d",&convertirTestAmountEnInt);
+            printf("%d x %d = \n",mois,convertirTestAmountEnInt);
             calculDuMultiplicateurDePaye = mois * convertirTestAmountEnInt;
             
             sprintf(bufferMonth,"%d",mois);
@@ -384,7 +385,7 @@ void addSubscription(char *nomUtilisateur){
             
             /*On ajoute une somme d'argent dans le compte current uniquement si le montant est différent de 0*/
             if(calculDuMultiplicateurDePaye != 0)
-            addAmount(pseudoTxt,nomUtilisateur,calculDuMultiplicateurDePaye,phraseTypeAddAbonnement,1);
+                addAmount(pseudoTxt,nomUtilisateur,calculDuMultiplicateurDePaye,phraseTypeAddAbonnement,1);
 
         }
 
@@ -401,6 +402,8 @@ void addSubscription(char *nomUtilisateur){
     /*Je libère la mémoire*/
     free(chemin);
     
+    /*J'appel ma fonction pour mettre le fichier x_configMonth.txt à jour au niveau des dates des abonnements mensuels*/
+    //mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur);
 }
 
 void updateMonth(char *usr){
@@ -601,6 +604,56 @@ void updateMonth(char *usr){
 
         /*J'appel ma fonction addSubscription pour pouvoir mettre à jour les abonnements mensuels dans le compte correspondant*/
         addSubscription(usr);
+}
+
+void mettreAJourLesAbonnementsMensuelsDates(char *usr){
+
+    /*Déclaration de mes variables*/
+    FILE *fileMonth,*fileMonthTmp;
+    char chemin[58] = PATH;
+    char extension[18] = "_configMonth.txt";
+    char extensionTmp[21] = "_configMonthTmp.txt";
+    char cheminFinalPourFopen[100];
+    char cheminFinalPourFopenTmp[100];
+    char buffer[151];
+    char *fgetsBuffer;
+    char ch;
+
+    /*Initialisation de mes variables*/
+    /*Chemin pour accéder au fichier X_configMonth.txt*/
+    strcpy(cheminFinalPourFopen,concat(chemin,usr));
+    strcpy(cheminFinalPourFopen,concat(cheminFinalPourFopen,extension));
+
+    /*Chemin pour accéder au fichier X_configMonthTmp.txt*/
+    strcpy(cheminFinalPourFopenTmp,concat(chemin,usr));
+    strcpy(cheminFinalPourFopenTmp,concat(cheminFinalPourFopenTmp,extensionTmp));
+
+    
+    fgetsBuffer = malloc(150);
+
+    /*Début de la lecture au fichier X_configMonth.txt*/
+    fileMonth = fopen(cheminFinalPourFopen,"r");
+
+    /*Début de la lecture du fichier X_configMonthTmp.txt*/
+    fileMonthTmp = fopen(cheminFinalPourFopenTmp,"r");
+
+    /*Si la lecture du fichier X_configMonth.txt est valide alors je continue*/
+    if(fileMonth && fileMonthTmp){
+        fgetsBuffer = fgets(buffer,150,fileMonth);
+        while(fgetsBuffer != NULL){
+            fgetsBuffer = fgets(buffer,150,fileMonth);
+            printf("%s",buffer);       
+        }
+    }
+    else{
+        exit(EXIT_FAILURE);
+    }
+
+    /*Je libère la mémoire*/
+    free(fgetsBuffer);
+    /*Je ferme le fichier*/
+    fclose(fileMonthTmp);
+    fclose(fileMonth);
 }
 
 

@@ -116,7 +116,7 @@ int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente){
 
     /*On prend le mois le plus élevé puis on calcul la différence en prenant en compte les années dans le calcul*/
     /*Si le mois de la date de fin est plus élevé que le mois de la date de départ*/
-    if(moisDeFin > moisDeDepart){
+    if(moisDeFin >= moisDeDepart){
 
         /*On fait la différence entre les mois de la date de fin et les mois de la date de départ*/
         mois =  moisDeFin - moisDeDepart;
@@ -151,7 +151,7 @@ int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente){
     }
 
     
-    printf("Il y a %d mois et %d jours de decallage!\n",mois,jour_1);
+    //printf("Il y a %d mois et %d jours de decallage!\n",mois,jour_1);
     return mois;
 }
 
@@ -191,7 +191,7 @@ int putInOrder(date dateDeDebut,date dateDeFin){
             /*Si les jours sont égaux alors les deux dates sont identiques*/
             if(dateDeDebut.jour == dateDeFin.jour){
                 mois = 0;
-                printf("Les deux dates sont identiques!\n");
+                //printf("Les deux dates sont identiques!\n");
             }
         }
     }

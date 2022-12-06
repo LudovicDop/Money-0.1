@@ -25,12 +25,13 @@ char *reading(char *nameAccount,char *usr,int silentMode);
 void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme, char *name);
 void updateMonth(char *usr);
-
+void mettreAJourLesAbonnementsMensuelsDates(char *usr);
 
 /* Mes fonctions */
 date sepMonth(char *date);
 int nombreDeJourDansUnMois(date moisSource);
 int putInOrder(date dateDeDebut,date dateDeFin);
 int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
+
 
 #endif /* moneyMainFunction_h */
