@@ -25,7 +25,7 @@ char *reading(char *nameAccount,char *usr,int silentMode);
 void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme, char *name);
 void updateMonth(char *usr);
-void mettreAJourLesAbonnementsMensuelsDates(char *usr);
+void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *dateMoisEtAnnee);
 
 /* Mes fonctions */
 date sepMonth(char *date);

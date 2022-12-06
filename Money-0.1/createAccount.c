@@ -372,7 +372,7 @@ void addSubscription(char *nomUtilisateur){
             mois = putInOrder(dateDeDepart,dateDeFin);
 
             sscanf(test[i+1].amount,"%d",&convertirTestAmountEnInt);
-            printf("%d x %d = \n",mois,convertirTestAmountEnInt);
+            //printf("%d x %d = \n",mois,convertirTestAmountEnInt);
             calculDuMultiplicateurDePaye = mois * convertirTestAmountEnInt;
             
             sprintf(bufferMonth,"%d",mois);
@@ -401,9 +401,16 @@ void addSubscription(char *nomUtilisateur){
 
     /*Je libère la mémoire*/
     free(chemin);
-    
+
+    char *dateSend = malloc(150);
+    char *dateMoisEtAnnee = malloc(150);
+
+    dateSend = strcpy(dateSend,strtok(bufferDateActuelle," \n"));
+    strcpy(dateMoisEtAnnee,dateSend);
+    dateMoisEtAnnee = strcpy(dateMoisEtAnnee,strtok(dateMoisEtAnnee,"/"));
+    printf("%s et %s\n",dateSend,dateMoisEtAnnee);
     /*J'appel ma fonction pour mettre le fichier x_configMonth.txt à jour au niveau des dates des abonnements mensuels*/
-    //mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur);
+    mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur,dateSend,dateMoisEtAnnee);
 }
 
 void updateMonth(char *usr){
@@ -576,7 +583,7 @@ void updateMonth(char *usr){
             fclose(fileTmp);
         
         verificationDesLignes1 = compteLesLignes(usr);
-        printf("Nombre d'abonnements mensuels : %d\n",verificationDesLignes1);
+        printf("Nombre d'abonnements mensuels : %d\n\n",verificationDesLignes1);
         //printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
@@ -592,7 +599,7 @@ void updateMonth(char *usr){
             sscanf(test[i].year,"%d",&xYear[i]);
             int xAmount[100];
             sscanf(test[i].amount,"%d",&xAmount[i]);
-            printf("** Subscription number %d : %d (day) %d (month) %d (year) %s (name) %d $ (amount) **\n",i,xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
+            printf("** Subscription number %d : %d/%d/%d %s:%d$ **\n",i,xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
             
     
         }
@@ -606,18 +613,27 @@ void updateMonth(char *usr){
         addSubscription(usr);
 }
 
-void mettreAJourLesAbonnementsMensuelsDates(char *usr){
+void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *dateMoisEtAnnee){
 
     /*Déclaration de mes variables*/
     FILE *fileMonth,*fileMonthTmp;
+    date dateDeDepart,dateDeFin;
     char chemin[58] = PATH;
     char extension[18] = "_configMonth.txt";
     char extensionTmp[21] = "_configMonthTmp.txt";
     char cheminFinalPourFopen[100];
     char cheminFinalPourFopenTmp[100];
     char buffer[151];
+    char *nameTmpConfigMonth;
+    char delimiteur[2] = ":";
     char *fgetsBuffer;
+    char *currentDateLastUpdate;
+    char *dateTmpConfigMonth;
+    char *moneyTmpConfigMonth;
+    char *finalTmpConfigMonth;
+    int moisSiJeDoisMettreAJour;
     char ch;
+    int i = 0;
 
     /*Initialisation de mes variables*/
     /*Chemin pour accéder au fichier X_configMonth.txt*/
@@ -628,21 +644,54 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr){
     strcpy(cheminFinalPourFopenTmp,concat(chemin,usr));
     strcpy(cheminFinalPourFopenTmp,concat(cheminFinalPourFopenTmp,extensionTmp));
 
-    
     fgetsBuffer = malloc(150);
+    nameTmpConfigMonth = malloc(150);
+    dateTmpConfigMonth = malloc(150);
+    moneyTmpConfigMonth = malloc(150);
+    finalTmpConfigMonth = malloc(150);
+    currentDateLastUpdate = malloc(150);
 
     /*Début de la lecture au fichier X_configMonth.txt*/
     fileMonth = fopen(cheminFinalPourFopen,"r");
 
     /*Début de la lecture du fichier X_configMonthTmp.txt*/
-    fileMonthTmp = fopen(cheminFinalPourFopenTmp,"r");
+    fileMonthTmp = fopen(cheminFinalPourFopenTmp,"w");
 
     /*Si la lecture du fichier X_configMonth.txt est valide alors je continue*/
     if(fileMonth && fileMonthTmp){
+
         fgetsBuffer = fgets(buffer,150,fileMonth);
-        while(fgetsBuffer != NULL){
-            fgetsBuffer = fgets(buffer,150,fileMonth);
-            printf("%s",buffer);       
+        fprintf(fileMonthTmp,fgetsBuffer);
+
+        while((fgetsBuffer = fgets(buffer,150,fileMonth)) != NULL){
+
+            nameTmpConfigMonth = strtok(fgetsBuffer,delimiteur);
+            currentDateLastUpdate = strtok(NULL,delimiteur);
+            moneyTmpConfigMonth = strtok(NULL,"\n");
+
+            dateDeDepart = sepMonth(dateActuelle);
+            dateDeFin = sepMonth(currentDateLastUpdate);
+
+            moisSiJeDoisMettreAJour = putInOrder(dateDeDepart,dateDeFin);
+            printf("mois : %d date actuelle %s autre %s\n",moisSiJeDoisMettreAJour,dateActuelle,currentDateLastUpdate);
+            finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(nameTmpConfigMonth,":"));
+
+            if(moisSiJeDoisMettreAJour>0){
+                /*printf("ok %d",moisSiJeDoisMettreAJour);
+                currentDateLastUpdate = strcpy(currentDateLastUpdate,strtok(currentDateLastUpdate,"/"));
+                currentDateLastUpdate = strcpy(currentDateLastUpdate,concat(currentDateLastUpdate,"/"));
+                currentDateLastUpdate = strcpy(currentDateLastUpdate,concat(currentDateLastUpdate,dateMoisEtAnnee));
+                finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,dateActuelle));*/
+            }
+            else{
+                finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,currentDateLastUpdate));
+            }
+            finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,":"));
+            finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,moneyTmpConfigMonth));
+            finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,"\n"));
+
+            fprintf(fileMonthTmp,finalTmpConfigMonth);     
+
         }
     }
     else{
