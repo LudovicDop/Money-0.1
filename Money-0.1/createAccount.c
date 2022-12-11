@@ -408,7 +408,7 @@ void addSubscription(char *nomUtilisateur){
     dateSend = strcpy(dateSend,strtok(bufferDateActuelle," \n"));
     strcpy(dateMoisEtAnnee,dateSend);
     dateMoisEtAnnee = strcpy(dateMoisEtAnnee,strtok(dateMoisEtAnnee,"/"));
-    printf("%s et %s\n",dateSend,dateMoisEtAnnee);
+
     /*J'appel ma fonction pour mettre le fichier x_configMonth.txt à jour au niveau des dates des abonnements mensuels*/
     mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur,dateSend,dateMoisEtAnnee);
 }
@@ -632,6 +632,7 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     char *moneyTmpConfigMonth;
     char *finalTmpConfigMonth;
     int moisSiJeDoisMettreAJour;
+    char *nomFinalNew = malloc(100);
     char ch;
     int i = 0;
 
@@ -639,7 +640,7 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     /*Chemin pour accéder au fichier X_configMonth.txt*/
     strcpy(cheminFinalPourFopen,concat(chemin,usr));
     strcpy(cheminFinalPourFopen,concat(cheminFinalPourFopen,extension));
-
+    strcpy(nomFinalNew,concat(usr,extension));
     /*Chemin pour accéder au fichier X_configMonthTmp.txt*/
     strcpy(cheminFinalPourFopenTmp,concat(chemin,usr));
     strcpy(cheminFinalPourFopenTmp,concat(cheminFinalPourFopenTmp,extensionTmp));
@@ -655,16 +656,15 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     fileMonth = fopen(cheminFinalPourFopen,"r");
 
     /*Début de la lecture du fichier X_configMonthTmp.txt*/
-    fileMonthTmp = fopen(cheminFinalPourFopenTmp,"w");
+    fileMonthTmp = fopen(cheminFinalPourFopenTmp,"w+");
 
     /*Si la lecture du fichier X_configMonth.txt est valide alors je continue*/
     if(fileMonth && fileMonthTmp){
-
         fgetsBuffer = fgets(buffer,150,fileMonth);
         fprintf(fileMonthTmp,fgetsBuffer);
-
+        int i = 0;
         while((fgetsBuffer = fgets(buffer,150,fileMonth)) != NULL){
-
+            i++;
             nameTmpConfigMonth = strtok(fgetsBuffer,delimiteur);
             currentDateLastUpdate = strtok(NULL,delimiteur);
             moneyTmpConfigMonth = strtok(NULL,"\n");
@@ -673,23 +673,32 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
             dateDeFin = sepMonth(currentDateLastUpdate);
 
             moisSiJeDoisMettreAJour = putInOrder(dateDeDepart,dateDeFin);
-            printf("mois : %d date actuelle %s autre %s\n",moisSiJeDoisMettreAJour,dateActuelle,currentDateLastUpdate);
+
             finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(nameTmpConfigMonth,":"));
 
+            /*Je mets la date mois/année à jour pour éviter de recharger un prix supplémentaire*/
             if(moisSiJeDoisMettreAJour>0){
-                /*printf("ok %d",moisSiJeDoisMettreAJour);
-                currentDateLastUpdate = strcpy(currentDateLastUpdate,strtok(currentDateLastUpdate,"/"));
-                currentDateLastUpdate = strcpy(currentDateLastUpdate,concat(currentDateLastUpdate,"/"));
-                currentDateLastUpdate = strcpy(currentDateLastUpdate,concat(currentDateLastUpdate,dateMoisEtAnnee));
-                finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,dateActuelle));*/
+
+                char *stringAModifDate = malloc(sizeof(dateActuelle));
+                char *dest = malloc(sizeof(currentDateLastUpdate));
+                char delimiteur = '/';
+
+                strcpy(stringAModifDate,dateActuelle);
+                strtokReverse(stringAModifDate,dest,delimiteur);
+
+                finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,test[i].day));
+                finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,dest));
             }
+            /*Si il n'y a pas de mois de différence alors je ne change rien*/
             else{
                 finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,currentDateLastUpdate));
             }
+            /*Fin de la chaine pour integrer la somme d'argent pour les abonnements*/
             finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,":"));
             finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,moneyTmpConfigMonth));
             finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,"\n"));
 
+            /*Je rédige dans le tmp file*/
             fprintf(fileMonthTmp,finalTmpConfigMonth);     
 
         }
@@ -703,6 +712,20 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     /*Je ferme le fichier*/
     fclose(fileMonthTmp);
     fclose(fileMonth);
+    /*Je remplace le fichier month par tmp*/
+
+    if(remove(cheminFinalPourFopen) == 0){
+       printf("succes! remove %s\n",cheminFinalPourFopen);
+    }else{
+        //exit(EXIT_FAILURE);
+        printf("echec! remove\n");
+    }
+    if(rename(cheminFinalPourFopenTmp,cheminFinalPourFopen) == 0){
+              printf("succes! rename\n");
+    }else{
+        //exit(EXIT_FAILURE);
+        printf("echec! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
+    }
 }
 
 
