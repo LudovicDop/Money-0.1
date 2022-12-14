@@ -38,13 +38,14 @@ int main(int argc, const char * argv[]) {
             printf("Login : \n");
             scanf("%s",login);
             finalName = concat(login, extension);
-            
-            if(reading(finalName,login,0) != NULL){
+
+            if(reading(finalName,login,1) != NULL){
                 updateMonth(login);
+                update(login);
+                reading(finalName,login,0);
                 char choice2 = ' ';
                 //Param by month NOM:dd/mm/yy:somme
                 printf("\nDo you want to add something ? (Y/N) or (x)\n");
-                update(login);
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
                     int money;

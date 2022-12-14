@@ -34,7 +34,7 @@ char* concat(const char *s1,const char *s2)
     return result;
 }
 
-
+/*Permet de mettre à jour la date de la dernière utilisation du logiciel dans configMonth*/
 void update(char *name){
     FILE *fileMonth, *tmpFile = NULL;
     char *chemin = PATH;
@@ -61,7 +61,7 @@ void update(char *name){
 
     rewind(fileMonth);
         
-    fprintf(fileMonth,"Last update :%d/%d/%d ",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year+1900);
+    fprintf(fileMonth,"Last update :%d/%d/%d \n",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year+1900);
     fclose(fileMonth);
                                              
     char curr;
@@ -179,10 +179,10 @@ char *reading(char *nameAccount,char *usr,int silentMode)
         char d[2] = " ";
         comment = strtok(tmp,d);
 
-        //if(silentMode == 0){
+        if(silentMode == 0){
         printf("\n             *** Loading bank account *** \n\n");
         printf("             %s do you have => %s $\n\n",usr,tmp);
-        //}
+        }
 
         fclose(fileAccount); //MODIF ICI
 
@@ -220,11 +220,12 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMod
     struct tm *tm_time = localtime(&now);
     
     fprintf(fileAccount, cNewWithReturn); //HERE
-    /*Mode silent activé si x == 1*/
-   
+
     fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+
+    if(silentMode == 0){
     printf("         *** %s do you have now %d $ ***\n\n",usr,result);
-    
+    }
     fclose(fileAccount);
     
 }
@@ -251,12 +252,12 @@ void month(char *nom,char *date,int somme, char *name){
         char *s3 = concat(s2,extension);
         fileAccount = fopen(s3, "a"); //On lit le fichier pour voir s'il existe ou non
       
-         fprintf(fileAccount,"\n%s:%s:%d ",nom,date,somme);
+         fprintf(fileAccount,"%s:%s:%d \n",nom,date,somme);
 
          fclose(fileAccount);
 }
 
-const int compteLesLignes(char *usr){
+int compteLesLignes(char *usr){
     FILE *fileAccount = NULL;
     char *chemin = PATH;
     char param[13] = "_configMonth";
@@ -271,18 +272,18 @@ const int compteLesLignes(char *usr){
         tmp = fgetc(fileAccount);
     }
 
-rewind(fileAccount);
+    rewind(fileAccount);
 
-int newline_counter = 0;
+    int newline_counter = 0;
 
-char ch = getc(fileAccount);
-do{
-   if (ch == '\n') ++newline_counter;
-} while ((ch = getc(fileAccount)) != EOF);
+    char ch = getc(fileAccount);
+    do{
+    if (ch == '\n') ++newline_counter;
+    } while ((ch = getc(fileAccount)) != EOF);
 
-fclose(fileAccount);
+    fclose(fileAccount);
 
-return newline_counter;
+    return newline_counter;
 
 }
 
@@ -299,7 +300,6 @@ return newline_counter;
 
 /*Cette fonction permet de mettre à jour les abonnements mensuels dans le compte correspondant*/
 void addSubscription(char *nomUtilisateur){
-    
     /*Déclaration de mes variables*/
     FILE *file = NULL; //crash ici si j'ajoute un autre FILE
     FILE *fileToAdd = NULL;
@@ -319,7 +319,7 @@ void addSubscription(char *nomUtilisateur){
     int verificationDesLignes = compteLesLignes(nomUtilisateur);
     int mois;
     int calculDuMultiplicateurDePaye;
-    int convertirTestAmountEnInt;
+    int convertirTestAmountEnInt = 0;
     char pseudoTxt[100];
     char phraseTypeAddAbonnement[100];
     char bufferMonth[30];
@@ -347,8 +347,8 @@ void addSubscription(char *nomUtilisateur){
         fgets(bufferDateActuelle,100,file);
 
         /*Tant que i est < au nombres d'abonnements on continue*/
-        for(int i = 0;i<verificationDesLignes;i++){
-            
+        for(int i = 1;i<verificationDesLignes;i++){
+             printf("verificationDesLignes : %d\n",verificationDesLignes);
             /*On parcourt le fichier x_configMonth.txt avec le char ch, tant qu'il n'est pas égal à ":" on continue*/
             /*On actualise la variable ch pour éviter de stocker le ":" précédent et pouvoir passer dans le boucle while*/
             ch = getc(file);
@@ -370,11 +370,10 @@ void addSubscription(char *nomUtilisateur){
 
             /*On récupère les mois de différence entre la date actuelle et la dernière actualisation de l'abonnement X*/
             mois = putInOrder(dateDeDepart,dateDeFin);
-
-            sscanf(test[i+1].amount,"%d",&convertirTestAmountEnInt);
+            sscanf(test[i].amount,"%d",&convertirTestAmountEnInt);
             //printf("%d x %d = \n",mois,convertirTestAmountEnInt);
             calculDuMultiplicateurDePaye = mois * convertirTestAmountEnInt;
-            
+            printf("%d * %d = %d\n",mois,convertirTestAmountEnInt,calculDuMultiplicateurDePaye);
             sprintf(bufferMonth,"%d",mois);
 
             strcpy(phraseTypeAddAbonnement,"Ceci viens de votre abonnement ");
@@ -386,9 +385,7 @@ void addSubscription(char *nomUtilisateur){
             /*On ajoute une somme d'argent dans le compte current uniquement si le montant est différent de 0*/
             if(calculDuMultiplicateurDePaye != 0)
                 addAmount(pseudoTxt,nomUtilisateur,calculDuMultiplicateurDePaye,phraseTypeAddAbonnement,1);
-
         }
-
     }
     /*Si il y a un problème de lecture je ferme le programme*/
     else{
@@ -401,14 +398,13 @@ void addSubscription(char *nomUtilisateur){
 
     /*Je libère la mémoire*/
     free(chemin);
-
+    
     char *dateSend = malloc(150);
     char *dateMoisEtAnnee = malloc(150);
 
     dateSend = strcpy(dateSend,strtok(bufferDateActuelle," \n"));
     strcpy(dateMoisEtAnnee,dateSend);
     dateMoisEtAnnee = strcpy(dateMoisEtAnnee,strtok(dateMoisEtAnnee,"/"));
-
     /*J'appel ma fonction pour mettre le fichier x_configMonth.txt à jour au niveau des dates des abonnements mensuels*/
     mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur,dateSend,dateMoisEtAnnee);
 }
@@ -477,12 +473,12 @@ void updateMonth(char *usr){
     
     int verificationDesLignes1 = compteLesLignes(usr);
     
-    if(verificationDesLignes1 > 0){
+    if(verificationDesLignes1 > 1){
         
         //date test[verificationDesLignes1]; 
         int nameI = 0;
         
-        for(int i = 0;i < verificationDesLignes1;i++){
+        for(int i = 1;i < verificationDesLignes1+1;i++){
             fgets(tmp2,100,fileAccount);
             char *nameStr = strtok(tmp2,":");
             strcpy(test[i].name,nameStr);
@@ -500,6 +496,7 @@ void updateMonth(char *usr){
         while(tmp != EOF){
             
             while(tmp != ':'){
+                printf("ok");
                 tmp = fgetc(fileAccount);
             }
             dayI++;
@@ -558,10 +555,9 @@ void updateMonth(char *usr){
         tmp = fgetc(fileAccount);
         int amountI = 0;
      
-        while(amountI < verificationDesLignes1){
+        while(amountI < verificationDesLignes1-1){
             tmpAmount = 0;
             while(tmp != ':' || tmpAmount < 2){
-        
                 tmp = fgetc(fileAccount);
                 if(tmp == ':'){
                     tmpAmount++;
@@ -573,7 +569,6 @@ void updateMonth(char *usr){
 
             char *amountStr = strtok(tmp2," ");
             strcpy(test[amountI].amount,amountStr);
-
             
             //tmp = fgetc(fileAccount);
         
@@ -582,14 +577,14 @@ void updateMonth(char *usr){
             fclose(fileAccount);
             fclose(fileTmp);
         
-        verificationDesLignes1 = compteLesLignes(usr);
+        // verificationDesLignes1 = compteLesLignes(usr);
         printf("Nombre d'abonnements mensuels : %d\n\n",verificationDesLignes1);
         //printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
         fgets(tmp2, 100,fileAccount);
        
-        for(int i = 1;i<verificationDesLignes1+1;i++){
+        for(int i = 1;i<verificationDesLignes1;i++){
             
             int xDay[100];
             sscanf(test[i].day,"%d",&xDay[i]);
@@ -599,11 +594,11 @@ void updateMonth(char *usr){
             sscanf(test[i].year,"%d",&xYear[i]);
             int xAmount[100];
             sscanf(test[i].amount,"%d",&xAmount[i]);
-            printf("** Subscription number %d : %d/%d/%d %s:%d$ **\n",i,xDay[i],xMonth[i],xYear[i],test[i-1].name,xAmount[i]);
+
+            printf("** Subscription number %d : %d/%d/%d %s:%d$ **\n",i,xDay[i],xMonth[i],xYear[i],test[i].name,xAmount[i]);
             
     
         }
-
     }
 
         fclose(fileAccount);
@@ -614,7 +609,6 @@ void updateMonth(char *usr){
 }
 
 void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *dateMoisEtAnnee){
-
     /*Déclaration de mes variables*/
     FILE *fileMonth,*fileMonthTmp;
     date dateDeDepart,dateDeFin;
