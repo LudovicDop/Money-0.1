@@ -348,7 +348,7 @@ void addSubscription(char *nomUtilisateur){
 
         /*Tant que i est < au nombres d'abonnements on continue*/
         for(int i = 1;i<verificationDesLignes;i++){
-             printf("verificationDesLignes : %d\n",verificationDesLignes);
+
             /*On parcourt le fichier x_configMonth.txt avec le char ch, tant qu'il n'est pas égal à ":" on continue*/
             /*On actualise la variable ch pour éviter de stocker le ":" précédent et pouvoir passer dans le boucle while*/
             ch = getc(file);
@@ -371,9 +371,9 @@ void addSubscription(char *nomUtilisateur){
             /*On récupère les mois de différence entre la date actuelle et la dernière actualisation de l'abonnement X*/
             mois = putInOrder(dateDeDepart,dateDeFin);
             sscanf(test[i].amount,"%d",&convertirTestAmountEnInt);
-            //printf("%d x %d = \n",mois,convertirTestAmountEnInt);
+
             calculDuMultiplicateurDePaye = mois * convertirTestAmountEnInt;
-            printf("%d * %d = %d\n",mois,convertirTestAmountEnInt,calculDuMultiplicateurDePaye);
+    
             sprintf(bufferMonth,"%d",mois);
 
             strcpy(phraseTypeAddAbonnement,"Ceci viens de votre abonnement ");
@@ -474,8 +474,7 @@ void updateMonth(char *usr){
     int verificationDesLignes1 = compteLesLignes(usr);
     
     if(verificationDesLignes1 > 1){
-        
-        //date test[verificationDesLignes1]; 
+         
         int nameI = 0;
         
         for(int i = 1;i < verificationDesLignes1+1;i++){
@@ -496,7 +495,6 @@ void updateMonth(char *usr){
         while(tmp != EOF){
             
             while(tmp != ':'){
-                printf("ok");
                 tmp = fgetc(fileAccount);
             }
             dayI++;
@@ -577,9 +575,8 @@ void updateMonth(char *usr){
             fclose(fileAccount);
             fclose(fileTmp);
         
-        // verificationDesLignes1 = compteLesLignes(usr);
-        printf("Nombre d'abonnements mensuels : %d\n\n",verificationDesLignes1);
-        //printf("Result de test : %s (day) %s (month) %s (year) %s (name) %s (amount)...\n",test[1].day,test[1].month,test[1].year,test[0].name,test[1].amount);
+        printf("Nombre d'abonnements mensuels : %d\n\n",verificationDesLignes1-1);
+
         fileAccount = fopen(s3,"r");
         rewind(fileAccount);
         fgets(tmp2, 100,fileAccount);
@@ -709,13 +706,13 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     /*Je remplace le fichier month par tmp*/
 
     if(remove(cheminFinalPourFopen) == 0){
-       printf("succes! remove %s\n",cheminFinalPourFopen);
+
     }else{
         //exit(EXIT_FAILURE);
         printf("echec! remove\n");
     }
     if(rename(cheminFinalPourFopenTmp,cheminFinalPourFopen) == 0){
-              printf("succes! rename\n");
+   
     }else{
         //exit(EXIT_FAILURE);
         printf("echec! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
