@@ -80,7 +80,10 @@ int main(int argc, const char * argv[]) {
                     month(nom,date,somme,login);
                 }
                 if(choice2 == 'r' || choice2 == 'R'){
-                    printf("Succes\n");
+                    int numeroDeLaTransactionASupr;
+                    printf("Quelle transaction souhaitez-vous supprimer ? \n");
+                    scanf("%d",&numeroDeLaTransactionASupr);
+                    removeSomethingCurrentAccount(login,numeroDeLaTransactionASupr);
                 }
             }
         }

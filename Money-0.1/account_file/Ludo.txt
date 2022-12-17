@@ -4,3 +4,4 @@
 50095 =>  1095 + 49000 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 35 mois! ) 17/12/22 #3#
 51095 =>  50095 + 1000 ( Reason : Ceci viens de votre abonnement TECHNIQUE pour une durée de 1 mois! ) 17/12/22 #4#
 51100 =>  51095 + 5 ( Reason : e ) 17/12/22 #5#
+2100 =>  51100 + -49000 ( Reason : Suppression de la transaction #3# ) 17/12/22 #6#

@@ -32,6 +32,7 @@ date sepMonth(char *date);
 int nombreDeJourDansUnMois(date moisSource);
 int putInOrder(date dateDeDebut,date dateDeFin);
 int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
+void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr);
 
 
 #endif /* moneyMainFunction_h */

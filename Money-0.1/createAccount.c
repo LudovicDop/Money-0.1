@@ -12,6 +12,7 @@
 #include <time.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "moneyMainFunction.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
@@ -798,5 +799,65 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     }else{
         //exit(EXIT_FAILURE);
         printf("echec! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
+    }
+}
+/*Cette fonction permet de supprimer une transaction cibler dans le compte courant de l'utilisateur X*/
+void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
+
+    /*Déclaration de mes variables*/
+    FILE *fileAccount = NULL;
+    char extension[5] = ".txt";
+    char chemin[100] = PATH;
+    char cheminFinal[200];
+    char buffer[500];
+    char *valeurASoustraireEnChar = malloc(500);
+    int valeurASoustraire;
+    char *finalNameWithExtension = malloc(100);
+    char msgDeSuppression[100] = "Suppression de la transaction #";
+    char numeroDeLaTransactionEnChar[100];
+    char tag[2] = "#";
+
+    /*J'initialise le chemin vers le bon fichier*/
+    strcpy(cheminFinal,concat(chemin,usr));
+    strcpy(cheminFinal,concat(cheminFinal,extension));
+
+    strcpy(finalNameWithExtension,concat(usr,extension));
+
+    sprintf(numeroDeLaTransactionEnChar,"%d",numeroDeLaTransactionASupr);
+    strcpy(msgDeSuppression,concat(msgDeSuppression,numeroDeLaTransactionEnChar));
+    strcpy(msgDeSuppression,concat(msgDeSuppression,tag));
+
+    /*Je passe le fichier en mode lecture seul*/
+    fileAccount = fopen(cheminFinal,"r");
+
+    /*Je vérifie que le fichier est correction ouvert*/
+    if(fileAccount){
+
+        for(int i = 0;i<=numeroDeLaTransactionASupr;i++){
+
+            fgets(buffer,500,fileAccount);
+        }
+
+        printf("Vous avez selectionner la transaction suivante : \n%s\n",buffer);
+        printf("Supression en cours...\n");
+        sleep(1.5);
+        printf("3\n");
+        sleep(1);
+        printf("2\n");
+        sleep(1);
+        printf("1\n");
+        sleep(1);
+        printf("Votre transaction a bien ete supprimer!\n\n");
+        strcpy(valeurASoustraireEnChar,strtok(buffer,"("));
+        strtokReverse(valeurASoustraireEnChar,valeurASoustraireEnChar,'+',1);
+
+        sscanf(valeurASoustraireEnChar,"%d",&valeurASoustraire);
+        valeurASoustraire = valeurASoustraire * -1;
+
+        addAmount(finalNameWithExtension,usr,valeurASoustraire,msgDeSuppression,1);
+        
+    }else{
+
+        printf("error\n");
     }
 }
