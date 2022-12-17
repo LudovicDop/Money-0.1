@@ -1,11 +1,1 @@
-500 #0#
-600 =>  500 + 100 ( Reason : Test ) 17/12/22 #1#
-651 =>  600 + 51 ( Reason : test ) 17/12/22 #2#
-671 =>  651 + 20 ( Reason : azer ) 17/12/22 #3#
-679 =>  671 + 8 ( Reason : Viemeo ) 17/12/22 #4#
-779 =>  679 + 100 ( Reason : Ceci est encore un test ) 17/12/22 #5#
-831 =>  779 + 52 ( Reason : Ceci est un test a ne pas prendre en compte ) 17/12/22 #6#
-840 =>  831 + 9 ( Reason : test ) 17/12/22 #7#
-940 =>  840 + 100 ( Reason : test ) 17/12/22 #8#
-945 =>  940 + 5 ( Reason : yes ) 17/12/22 #9#
-2734 =>  945 + 1789 ( Reason : Perception de la caf ) 17/12/22 #10#
+100 #0#

@@ -61,7 +61,7 @@ void update(char *name){
 
     rewind(fileMonth);
         
-    fprintf(fileMonth,"Last update :%d/%d/%d \n",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year+1900);
+    fprintf(fileMonth,"Last update :%d/%d/%d #0# \n",tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year+1900);
     fclose(fileMonth);
                                              
     char curr;
@@ -216,6 +216,29 @@ char *lectureDeLaDerniereLigne(char *usr){
     }
 }
 
+char *lectureDeLaDerniereLignePourAbonnement(char *usr){
+    
+    FILE *fileAccount = NULL;
+    char *chemin = PATH;
+    char *s = concat(chemin,usr);
+    char extention[5] = ".txt";
+    char param[13] = "_configMonth";
+    strcpy(s,concat(s,param));
+    strcpy(s,concat(s,extention));
+    char *tmp = malloc(500);
+    
+    fileAccount = fopen(s,"r");
+
+    if(fileAccount){
+
+        while(fgets(tmp,500,fileAccount) != NULL);
+        fclose(fileAccount);
+
+        /*Je retourne la dernière transaction*/
+        return tmp;
+    }
+}
+
 void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMode)
 {
 
@@ -288,10 +311,28 @@ void month(char *nom,char *date,int somme, char *name){
         char *s = concat(chemin, name); //Concaténation du chemin puis du nom du fichier en question
         char *s2 = concat(s,param);
         char *s3 = concat(s2,extension);
+        char *tmp2 = malloc(500);
+        char *numeroTransaction = malloc(500);
+        char *numeroTransactionFinal = malloc(500);
+        int tmpIntNumeroTransac = 0;
         fileAccount = fopen(s3, "a"); //On lit le fichier pour voir s'il existe ou non
-      
-         fprintf(fileAccount,"%s:%s:%d \n",nom,date,somme);
+        strcpy(tmp2,lectureDeLaDerniereLignePourAbonnement(name));
 
+        /*Je recupère l'ancien numéro de transaction*/
+        strcpy(numeroTransaction,tmp2);
+        strtokReverse(numeroTransaction,numeroTransactionFinal,'#',1);
+        strcpy(numeroTransactionFinal,strtok(numeroTransactionFinal,"#"));
+        sscanf(numeroTransactionFinal,"%d",&tmpIntNumeroTransac);
+        /*Et j'incrémente ce dernier*/
+        tmpIntNumeroTransac++;
+        printf("ici : %s\n",numeroTransactionFinal);
+
+         fprintf(fileAccount,"%s:%s:%d #%d# \n",nom,date,somme,tmpIntNumeroTransac);
+         
+
+         free(numeroTransaction);
+         free(numeroTransactionFinal);
+         free(tmp2);
          fclose(fileAccount);
 }
 

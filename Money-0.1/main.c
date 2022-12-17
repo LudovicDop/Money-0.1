@@ -40,58 +40,54 @@ int main(int argc, const char * argv[]) {
             finalName = concat(login, extension);
 
             if(reading(finalName,login,1) != NULL){
-                updateMonth(login);
-                update(login);
-                reading(finalName,login,0);
-                char choice2 = ' ';
+                    updateMonth(login);
+                    update(login);
+                    reading(finalName,login,0);
+                    char choice2 = ' ';
 
-                printf("\nDo you want to add something ? (Y/N) or (x)\n");
-                scanf("%s",&choice2);
-                if(choice2 == 'y' || choice2 == 'Y'){
+                    printf("\nDo you want to add something ? (Y/N) or (x) or (r)\n");
+                    scanf("%s",&choice2);
+                    if(choice2 == 'y' || choice2 == 'Y'){
 
-                    int money;
-                    char why[500];
+                        int money;
+                        char why[500];
 
-                    printf("How much :  ");
-                    scanf("%d", &money);
-                    FLUSH
-                    printf("Comment : ");
+                        printf("How much :  ");
+                        scanf("%d", &money);
+                        FLUSH
+                        printf("Comment : ");
 
-                    if(fgets(why, MAX_NAME_SIZE, stdin)){
-                      
-                        strremove(why, "\n");
-                    }else{
+                        if(fgets(why, MAX_NAME_SIZE, stdin)){
+                        
+                            strremove(why, "\n");
+                        }else{
 
-                        printf("error");
-                    }
-                    
-                    addAmount(finalName,login,money,why,0);
-                    //free(why);
+                            printf("error");
+                        }
+                        
+                        addAmount(finalName,login,money,why,0);
+                }
+                if(choice2 == 'x' || choice2 == 'X'){
+                    char nom[100];
+                    char date[100];
+                    int somme = 0;
+                    printf("Quel est le nom de la taxe ? ");
+                    scanf("%s",nom);
+                    printf("Date : ");
+                    scanf("%s",date);
+                    printf("Somme : ");
+                    scanf("%d",&somme);
+                    month(nom,date,somme,login);
+                }
+                if(choice2 == 'r' || choice2 == 'R'){
+                    printf("Succes\n");
+                }
             }
-            if(choice2 == 'x' || choice2 == 'X'){
-                char nom[100];
-                char date[100];
-                int somme = 0;
-                printf("Quel est le nom de la taxe ? ");
-                scanf("%s",nom);
-                printf("Date : ");
-                scanf("%s",date);
-                printf("Somme : ");
-                scanf("%d",&somme);
-                month(nom,date,somme,login);
-            }
-                
-            }
-                
-            
         }
 
     }while((choice != 'Q' && choice != 'q'));
     
-    
     exit(EXIT_SUCCESS);
-    
-    
-    
+
     return 0;
 }

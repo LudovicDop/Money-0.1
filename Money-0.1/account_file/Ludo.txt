@@ -1,16 +1,6 @@
 1000 #0#
-1080 =>  1000 + 80 ( Reason : Ceci est un test ) 17/12/22 #1#
-1227 =>  1080 + 147 ( Reason : Perception de la caf ) 17/12/22 #2#
-1230 =>  1227 + 3 ( Reason : test ) 17/12/22 #3#
-1284 =>  1230 + 54 ( Reason : Ceci est tjr un test ) 17/12/22 #4#
-2759 =>  1284 + 1475 ( Reason : Test ) 17/12/22 #5#
-5759 =>  2759 + 3000 ( Reason : test ) 17/12/22 #6#
-15759 =>  5759 + 10000 ( Reason : test ) 17/12/22 #7#
-161448 =>  15759 + 145689 ( Reason : test ) 17/12/22 #8#
-161449 =>  161448 + 1 ( Reason : test ) 17/12/22 #9#
-161454 =>  161449 + 5 ( Reason : Ceci est un test ) 17/12/22 #10#
-161554 =>  161454 + 100 ( Reason : test ) 17/12/22 #11#
-151554 =>  161554 + -10000 ( Reason : test ) 17/12/22 #12#
-51554 =>  151554 + -100000 ( Reason : test ) 17/12/22 #13#
-46554 =>  51554 + -5000 ( Reason : test ) 17/12/22 #14#
-6554 =>  46554 + -40000 ( Reason : test ) 17/12/22 #15#
+1100 =>  1000 + 100 ( Reason : test ) 17/12/22 #1#
+1095 =>  1100 + -5 ( Reason : Ceci viens de votre abonnement TEST pour une durée de 1 mois! ) 17/12/22 #2#
+50095 =>  1095 + 49000 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 35 mois! ) 17/12/22 #3#
+51095 =>  50095 + 1000 ( Reason : Ceci viens de votre abonnement TECHNIQUE pour une durée de 1 mois! ) 17/12/22 #4#
+51100 =>  51095 + 5 ( Reason : e ) 17/12/22 #5#
