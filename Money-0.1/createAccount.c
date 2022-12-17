@@ -120,7 +120,8 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
     finalName = concat(name, extension);
     moneyValue = valeurDuCompte; // Récupération des valeurs entrer par l'utilisateur
     nameAccount = finalName;
-    
+    strcpy(valeurDuCompte,concat(valeurDuCompte," #0#"));
+
     if(nameAccount)
     {
         FILE *fileAccount = NULL; //Creation du fichier vide
@@ -194,6 +195,27 @@ char *reading(char *nameAccount,char *usr,int silentMode)
     
 }
 
+char *lectureDeLaDerniereLigne(char *usr){
+    
+    FILE *fileAccount = NULL;
+    char *chemin = PATH;
+    char *s = concat(chemin,usr);
+    char delimiteur[5] = ".txt";
+    strcpy(s,concat(s,delimiteur));
+    char *tmp = malloc(500);
+    
+    fileAccount = fopen(s,"r");
+
+    if(fileAccount){
+
+        while(fgets(tmp,500,fileAccount) != NULL);
+        fclose(fileAccount);
+
+        /*Je retourne la dernière transaction*/
+        return tmp;
+    }
+}
+
 void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMode)
 {
 
@@ -201,12 +223,16 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMod
     name = nameAccount;
     
     char *tmp = reading(nameAccount, usr,silentMode);
+    char *tmp2 = malloc(500);
+    strcpy(tmp2,lectureDeLaDerniereLigne(usr));
     FILE *fileAccount = NULL;
     char *chemin = PATH; //Chemin de stockage
     char *s = concat(chemin, name);
-    
-    //reading(nameAccount, usr);
-   
+    char delimiteur[2] = "#";
+    char *numeroTransaction = malloc(500);
+    char *numeroTransactionFinal = malloc(500);
+    int tmpIntNumeroTransac = 0;
+
     fileAccount = fopen(s, "a");
     int x;
     sscanf(tmp, "%d",&x);
@@ -214,20 +240,32 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMod
     char c[100];
     sprintf(c, "%d",result);
     char *cNewWithReturn = concat("\n", c);
-    //fileAccount = fopen(s, "w");
     
-    time_t now = time(NULL); //Chargement de la date actuelle
+    /*Je recupère l'ancien numéro de transaction*/
+    strcpy(numeroTransaction,tmp2);
+    strtokReverse(numeroTransaction,numeroTransactionFinal,'#',1);
+    strcpy(numeroTransactionFinal,strtok(numeroTransactionFinal,"#"));
+    sscanf(numeroTransactionFinal,"%d",&tmpIntNumeroTransac);
+    /*Et j'incrémente ce dernier*/
+    tmpIntNumeroTransac++;
+
+    /*Je recherche la date actuelle*/
+    time_t now = time(NULL); 
     struct tm *tm_time = localtime(&now);
     
-    fprintf(fileAccount, cNewWithReturn); //HERE
+    fprintf(fileAccount, cNewWithReturn);
 
-    fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100);
+    fprintf(fileAccount, " =>  %d + %d ( Reason : %s ) %d/%d/%d #%d#",x,amountAdd,why,tm_time->tm_mday,tm_time->tm_mon + 1,tm_time->tm_year-100,tmpIntNumeroTransac);
 
     if(silentMode == 0){
     printf("         *** %s do you have now %d $ ***\n\n",usr,result);
     }
     fclose(fileAccount);
-    
+
+    free(tmp);
+    free(tmp2);
+    free(numeroTransaction);
+    free(numeroTransactionFinal);
 }
 
 char *strremove(char *str, const char *sub) {
@@ -321,7 +359,7 @@ void addSubscription(char *nomUtilisateur){
     int calculDuMultiplicateurDePaye;
     int convertirTestAmountEnInt = 0;
     char pseudoTxt[100];
-    char phraseTypeAddAbonnement[100];
+    char phraseTypeAddAbonnement[500];
     char bufferMonth[30];
     /*Je concat nomUtilisateur avec l'extension du fichier configMonth.txt*/
 
@@ -407,6 +445,9 @@ void addSubscription(char *nomUtilisateur){
     dateMoisEtAnnee = strcpy(dateMoisEtAnnee,strtok(dateMoisEtAnnee,"/"));
     /*J'appel ma fonction pour mettre le fichier x_configMonth.txt à jour au niveau des dates des abonnements mensuels*/
     mettreAJourLesAbonnementsMensuelsDates(nomUtilisateur,dateSend,dateMoisEtAnnee);
+
+    free(dateSend);
+    free(dateMoisEtAnnee);
 }
 
 void updateMonth(char *usr){
@@ -675,7 +716,7 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
                 char delimiteur = '/';
 
                 strcpy(stringAModifDate,dateActuelle);
-                strtokReverse(stringAModifDate,dest,delimiteur);
+                strtokReverse(stringAModifDate,dest,delimiteur,0);
 
                 finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,test[i].day));
                 finalTmpConfigMonth = strcpy(finalTmpConfigMonth,concat(finalTmpConfigMonth,dest));
@@ -718,6 +759,3 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
         printf("echec! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
     }
 }
-
-
-

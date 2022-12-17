@@ -26,7 +26,7 @@ void initialisationNouveauCompte(char *name,char *amount);
 void month(char *nom,char *date,int somme, char *name);
 void updateMonth(char *usr);
 void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *dateMoisEtAnnee);
-void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur);
+void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur,int incluOuNonDelimiteur);
 /* Mes fonctions */
 date sepMonth(char *date);
 int nombreDeJourDansUnMois(date moisSource);

@@ -44,13 +44,14 @@ int main(int argc, const char * argv[]) {
                 update(login);
                 reading(finalName,login,0);
                 char choice2 = ' ';
-                //Param by month NOM:dd/mm/yy:somme
+
                 printf("\nDo you want to add something ? (Y/N) or (x)\n");
                 scanf("%s",&choice2);
                 if(choice2 == 'y' || choice2 == 'Y'){
+
                     int money;
-                    //char *why = malloc(sizeof(why));
-                    char *why;
+                    char why[500];
+
                     printf("How much :  ");
                     scanf("%d", &money);
                     FLUSH
@@ -59,17 +60,13 @@ int main(int argc, const char * argv[]) {
                     if(fgets(why, MAX_NAME_SIZE, stdin)){
                       
                         strremove(why, "\n");
-                       
-                
                     }else{
+
                         printf("error");
                     }
                     
                     addAmount(finalName,login,money,why,0);
-                    free(why);
-                  
-                    
-                
+                    //free(why);
             }
             if(choice2 == 'x' || choice2 == 'X'){
                 char nom[100];

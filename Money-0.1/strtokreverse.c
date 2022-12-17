@@ -5,7 +5,7 @@
 L'objectif de cette fonction est la même que pour un strtok classique mais dans le sens inverse
  c'est à dire supprimer ce qui viens avant le delimiteur
 */
-void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur){
+void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur,int incluOuNonDelimiteur){
         
         /*Déclaration & Initialisation de mes variables*/
         char *stringAModifSourceCar = malloc(sizeof(stringAModifSource));
@@ -25,6 +25,11 @@ void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur){
             stringAModifSourceCar = &stringAModifSourceCar[1];
         }
 
+        /*On exclu le delimiteur dans le résultat si incluOuNonDelimiteur est == à 1*/
+        if(incluOuNonDelimiteur == 1){
+        stringAModifSourceCar = &stringAModifSourceCar[1];
+        }
+
         /*On continue de lire la chaine de caracteres tant que l'on n'est pas arrrivé a la fin*/
         while(*stringAModifSourceCar != '\0'){
             
@@ -40,5 +45,6 @@ void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur){
 
         }
         /*Je libère la mémoire*/
-        free(stringAModifSourceCar);
+        // free(stringAModifSourceCar);
+        // free(adresseDestCar);
     }
