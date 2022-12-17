@@ -813,9 +813,8 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
     char *valeurASoustraireEnChar = malloc(500);
     int valeurASoustraire;
     char *finalNameWithExtension = malloc(100);
-    char msgDeSuppression[100] = "Suppression de la transaction #";
+    char msgDeSuppression[100] = "Suppression de la transaction ";
     char numeroDeLaTransactionEnChar[100];
-    char tag[2] = "#";
 
     /*J'initialise le chemin vers le bon fichier*/
     strcpy(cheminFinal,concat(chemin,usr));
@@ -825,7 +824,6 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
 
     sprintf(numeroDeLaTransactionEnChar,"%d",numeroDeLaTransactionASupr);
     strcpy(msgDeSuppression,concat(msgDeSuppression,numeroDeLaTransactionEnChar));
-    strcpy(msgDeSuppression,concat(msgDeSuppression,tag));
 
     /*Je passe le fichier en mode lecture seul*/
     fileAccount = fopen(cheminFinal,"r");
