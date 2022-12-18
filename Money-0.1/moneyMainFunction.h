@@ -33,6 +33,6 @@ int nombreDeJourDansUnMois(date moisSource);
 int putInOrder(date dateDeDebut,date dateDeFin);
 int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
 void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr);
-
+void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement);
 
 #endif /* moneyMainFunction_h */

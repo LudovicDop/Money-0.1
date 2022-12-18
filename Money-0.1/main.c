@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
                     reading(finalName,login,0);
                     char choice2 = ' ';
 
-                    printf("\nDo you want to add something ? (Y/N) or (x) or (r)\n");
+                    printf("\nDo you want to add something ? (Y/N) or (x) or (r) or (s)\n");
                     scanf("%s",&choice2);
                     if(choice2 == 'y' || choice2 == 'Y'){
 
@@ -84,6 +84,12 @@ int main(int argc, const char * argv[]) {
                     printf("Quelle transaction souhaitez-vous supprimer ? \n");
                     scanf("%d",&numeroDeLaTransactionASupr);
                     removeSomethingCurrentAccount(login,numeroDeLaTransactionASupr);
+                }
+                if(choice2 == 's' || 'S'){
+                    int numeroDeLAbonnement;
+                    printf("Quelle abonnement souhaitez-vous supprimer ? \n");
+                    scanf("%d",&numeroDeLAbonnement);
+                    removeSomethingAbonnement(login,numeroDeLAbonnement);
                 }
             }
         }

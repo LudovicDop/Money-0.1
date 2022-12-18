@@ -836,7 +836,7 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
             fgets(buffer,500,fileAccount);
         }
 
-        printf("Vous avez selectionner la transaction suivante : \n%s\n",buffer);
+        printf("Vous avez selectionne la transaction suivante : \n%s\n",buffer);
         printf("Supression en cours...\n");
         sleep(1.5);
         printf("3\n");
@@ -857,5 +857,33 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
     }else{
 
         printf("error\n");
+    }
+}
+
+void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
+
+    /*Déclaration de mes variables*/
+    FILE *fileMonth = NULL;
+    char extension[18] = "_configMonth.txt";
+    char chemin[100] = PATH;
+    char cheminFinal[100];
+    char tmp[100];
+    /*Initialisation du chemin vers le fichier des abonnements mensuels*/
+    strcpy(cheminFinal,concat(chemin,usr));
+    strcpy(cheminFinal,concat(cheminFinal,extension));
+
+    /*Ouverture en mode lecture seul*/
+    fileMonth = fopen(cheminFinal,"r");
+
+    /*Je vérifie si le fichier est bien ouvert*/
+    if(fileMonth){
+
+        for(int i = 0; i<=numeroDeLAbonnement;i++){
+            fgets(tmp,100,fileMonth);
+        }
+        printf("Vous avez selectionne l'abonnement suivant : \n%s\n",tmp);
+    }else{
+
+        printf("echec");
     }
 }
