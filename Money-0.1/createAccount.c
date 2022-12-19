@@ -802,16 +802,19 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     }
 }
 /*Cette fonction permet de supprimer une transaction cibler dans le compte courant de l'utilisateur X*/
-void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
+int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
 
     /*Déclaration de mes variables*/
-    FILE *fileAccount = NULL;
+    FILE *fileAccount,*fileAccountTmp = NULL;
     char extension[5] = ".txt";
     char chemin[100] = PATH;
     char cheminFinal[200];
-    char buffer[500];
+    char cheminFinalTmp[200];
+    char buffer[500] = "";
+    char tmpName[7] = "__tmp";
     char *valeurASoustraireEnChar = malloc(500);
     int valeurASoustraire;
+    char *nomApresRenameNormal = malloc(20);
     char *finalNameWithExtension = malloc(100);
     char msgDeSuppression[100] = "Suppression de la transaction ";
     char numeroDeLaTransactionEnChar[100];
@@ -825,15 +828,42 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
     sprintf(numeroDeLaTransactionEnChar,"%d",numeroDeLaTransactionASupr);
     strcpy(msgDeSuppression,concat(msgDeSuppression,numeroDeLaTransactionEnChar));
 
+
+    strcpy(cheminFinalTmp,concat(chemin,usr));
+    strcpy(cheminFinalTmp,concat(cheminFinalTmp,tmpName));
+    strcpy(cheminFinalTmp,concat(cheminFinalTmp,extension));
+
+    strcpy(nomApresRenameNormal,concat(usr,extension));
     /*Je passe le fichier en mode lecture seul*/
     fileAccount = fopen(cheminFinal,"r");
-
+    fileAccountTmp = fopen(cheminFinalTmp,"w");
     /*Je vérifie que le fichier est correction ouvert*/
-    if(fileAccount){
+    if(fileAccount && fileAccountTmp){
+        
+        char *tmp = malloc(100);
+        char *tmpNext = malloc(100);
+        char *numero = malloc(100);
 
-        for(int i = 0;i<=numeroDeLaTransactionASupr;i++){
+        sprintf(numero,"%d",numeroDeLaTransactionASupr);
+        strcpy(numero,concat("#",numero));
+        strcpy(numero,concat(numero,"#"));
 
-            fgets(buffer,500,fileAccount);
+        while(strstr(buffer,numero) == NULL && tmp != NULL){
+
+            if(buffer != NULL){
+
+                fprintf(fileAccountTmp,buffer);
+            }
+
+            tmp = fgets(buffer,500,fileAccount);
+        }
+        
+        if(tmp == NULL){
+            fclose(fileAccount);
+            fclose(fileAccountTmp);
+            remove(cheminFinalTmp);
+            printf("\nTransaction introuvable!\n");
+            return 1;
         }
 
         printf("Vous avez selectionne la transaction suivante : \n%s\n",buffer);
@@ -854,6 +884,19 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
 
         addAmount(finalNameWithExtension,usr,valeurASoustraire,msgDeSuppression,1);
         
+        tmp = fgets(buffer,500,fileAccount);
+
+        while(tmp != NULL){
+
+            fprintf(fileAccountTmp,buffer);
+            tmp = fgets(buffer,500,fileAccount);
+
+        }
+        fclose(fileAccount);
+        fclose(fileAccountTmp);
+        remove(cheminFinal);
+        rename(cheminFinalTmp,cheminFinal);
+        return 0;
     }else{
 
         printf("error\n");
@@ -863,27 +906,47 @@ void removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
 void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
 
     /*Déclaration de mes variables*/
-    FILE *fileMonth = NULL;
+    FILE *fileMonth, *fileMonthTmp = NULL;
     char extension[18] = "_configMonth.txt";
+    char extensionTmp[21] = "_configMonthTmp.txt";
     char chemin[100] = PATH;
     char cheminFinal[100];
-    char tmp[100];
+    char cheminFinalTmp[100];
+    char buffer[100];
+    char *tmp;
     /*Initialisation du chemin vers le fichier des abonnements mensuels*/
     strcpy(cheminFinal,concat(chemin,usr));
     strcpy(cheminFinal,concat(cheminFinal,extension));
 
+    strcpy(cheminFinalTmp,concat(chemin,usr));
+    strcpy(cheminFinalTmp,concat(cheminFinalTmp,extensionTmp));
+
     /*Ouverture en mode lecture seul*/
     fileMonth = fopen(cheminFinal,"r");
+    fileMonthTmp = fopen(cheminFinalTmp,"w+");
 
     /*Je vérifie si le fichier est bien ouvert*/
-    if(fileMonth){
+    if(fileMonth && fileMonthTmp){
 
-        for(int i = 0; i<=numeroDeLAbonnement;i++){
-            fgets(tmp,100,fileMonth);
+        for(int i = 0; i<numeroDeLAbonnement;i++){
+
+            tmp = fgets(buffer,100,fileMonth);
+            fprintf(fileMonthTmp,buffer);
         }
+
+        tmp = fgets(buffer,100,fileMonth);
+
+        while(tmp != NULL){
+
+            fprintf(fileMonthTmp,buffer);
+            tmp = fgets(buffer,100,fileMonth);
+            
+        }
+
         printf("Vous avez selectionne l'abonnement suivant : \n%s\n",tmp);
     }else{
 
         printf("echec");
     }
+
 }

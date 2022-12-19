@@ -85,7 +85,7 @@ int main(int argc, const char * argv[]) {
                     scanf("%d",&numeroDeLaTransactionASupr);
                     removeSomethingCurrentAccount(login,numeroDeLaTransactionASupr);
                 }
-                if(choice2 == 's' || 'S'){
+                if(choice2 == 's' || choice2 == 'S'){
                     int numeroDeLAbonnement;
                     printf("Quelle abonnement souhaitez-vous supprimer ? \n");
                     scanf("%d",&numeroDeLAbonnement);
