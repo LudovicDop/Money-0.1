@@ -1,3 +1,14 @@
 1000 #0#
+1500 =>  1000 + 500 ( Reason : loto ) 19/12/22 #1#
+1500 =>  1280 + 220 ( Reason : Suppression de la transaction 2 ) 19/12/22 #3#
+-24800 =>  1500 + -26300 ( Reason : Ceci viens de votre abonnement CASINO pour une durée de 263 mois! ) 19/12/22 #4#
+1500 =>  -24800 + 26300 ( Reason : Suppression de la transaction 4 ) 19/12/22 #5#
+1720 =>  1500 + 220 ( Reason : Suppression de la transaction 2 ) 19/12/22 #6#
+1940 =>  1720 + 220 ( Reason : Suppression de la transaction 2 ) 19/12/22 #7#
+2160 =>  1940 + 220 ( Reason : Suppression de la transaction 2 ) 19/12/22 #8#
 
-1000 =>  1100 + -100 ( Reason : Suppression de la transaction 1 ) 19/12/22 #2#
+2160 =>  905 + 1255 ( Reason : Suppression de la transaction 9 ) 19/12/22 #10#
+2170 =>  2160 + 10 ( Reason : test ) 19/12/22 #11#
+2180 =>  2170 + 10 ( Reason : test ) 19/12/22 #12#
+
+2180 =>  2190 + -10 ( Reason : Suppression de la transaction 13 ) 19/12/22 #14#
