@@ -118,15 +118,23 @@ void initialisationNouveauCompte(char *valeurDuCompte,char *name)
     char *moneyValue; //Argent de base sur le compte
     char *finalName;
     char *finalNameParam;
+    char buffer[200];
+    char *cheminForSystem = malloc(200);
     finalName = concat(name, extension);
     moneyValue = valeurDuCompte; // Récupération des valeurs entrer par l'utilisateur
     nameAccount = finalName;
     strcpy(valeurDuCompte,concat(valeurDuCompte," #0#"));
-
     if(nameAccount)
     {
         FILE *fileAccount = NULL; //Creation du fichier vide
         char *chemin = PATH; //Chemin de stockage
+
+        // strcpy(cheminForSystem,strtok(chemin,"/"));
+        // snprintf(buffer,200,"cd %s && mkdir account_file",cheminForSystem);
+        // printf("%s",buffer);
+        // sleep(5);
+        // system(buffer);
+        
         char *s = concat(chemin, nameAccount); //Concaténation du chemin puis du nom du fichier en question
         fileAccount = fopen(s, "r"); //On lit le fichier pour voir s'il existe ou non
         
@@ -850,12 +858,11 @@ int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
 
         while(strstr(buffer,numero) == NULL && tmp != NULL){
 
-            if(buffer != NULL){
-
-                fprintf(fileAccountTmp,buffer);
-            }
-
+            fprintf(fileAccountTmp,buffer);
             tmp = fgets(buffer,500,fileAccount);
+            if(strstr(buffer,numero) != NULL){
+                break;
+            }
         }
         
         if(tmp == NULL){
@@ -882,20 +889,29 @@ int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
         sscanf(valeurASoustraireEnChar,"%d",&valeurASoustraire);
         valeurASoustraire = valeurASoustraire * -1;
 
-        addAmount(finalNameWithExtension,usr,valeurASoustraire,msgDeSuppression,1);
+        addAmount(finalNameWithExtension,usr,valeurASoustraire,msgDeSuppression,0);
         
         tmp = fgets(buffer,500,fileAccount);
+        tmp = fgets(buffer,500,fileAccount);
 
-        while(tmp != NULL){
+        while(tmp != NULL && buffer != NULL){
 
-            fprintf(fileAccountTmp,buffer);
             tmp = fgets(buffer,500,fileAccount);
-
+            fprintf(fileAccountTmp,buffer);
         }
+        
         fclose(fileAccount);
         fclose(fileAccountTmp);
         remove(cheminFinal);
         rename(cheminFinalTmp,cheminFinal);
+
+        free(valeurASoustraireEnChar);
+        free(nomApresRenameNormal);
+        free(finalNameWithExtension);
+        free(tmp);
+        free(tmpNext);
+        free(numero);
+        
         return 0;
     }else{
 
@@ -903,7 +919,7 @@ int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
     }
 }
 
-void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
+int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
 
     /*Déclaration de mes variables*/
     FILE *fileMonth, *fileMonthTmp = NULL;
@@ -913,7 +929,8 @@ void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
     char cheminFinal[100];
     char cheminFinalTmp[100];
     char buffer[100];
-    char *tmp;
+    char *bufferNumeroAbonnementEnChar = malloc(100);
+    char *tmp = malloc(200);
     /*Initialisation du chemin vers le fichier des abonnements mensuels*/
     strcpy(cheminFinal,concat(chemin,usr));
     strcpy(cheminFinal,concat(cheminFinal,extension));
@@ -923,27 +940,66 @@ void removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
 
     /*Ouverture en mode lecture seul*/
     fileMonth = fopen(cheminFinal,"r");
-    fileMonthTmp = fopen(cheminFinalTmp,"w+");
+    fileMonthTmp = fopen(cheminFinalTmp,"w");
 
+
+    sprintf(bufferNumeroAbonnementEnChar,"%d",numeroDeLAbonnement);
+    strcpy(bufferNumeroAbonnementEnChar,concat("#",bufferNumeroAbonnementEnChar));
+    strcpy(bufferNumeroAbonnementEnChar,concat(bufferNumeroAbonnementEnChar,"#"));
+   
     /*Je vérifie si le fichier est bien ouvert*/
     if(fileMonth && fileMonthTmp){
+        
+        while(strstr(buffer,bufferNumeroAbonnementEnChar) == NULL && tmp != NULL){
 
-        for(int i = 0; i<numeroDeLAbonnement;i++){
-
-            tmp = fgets(buffer,100,fileMonth);
             fprintf(fileMonthTmp,buffer);
+            tmp = fgets(buffer,500,fileMonth);
+
+            if(strstr(buffer,bufferNumeroAbonnementEnChar) != NULL){
+                break;
+            }
+
         }
 
-        tmp = fgets(buffer,100,fileMonth);
+        if(strstr(buffer,"#0#")){
+            fclose(fileMonth);
+            fclose(fileMonthTmp);
+            remove(cheminFinalTmp);
+            printf("Il est impossible de supprimer ce fichier!\n");
+            return 1;
+        }
+
+        if(tmp == NULL){
+            fclose(fileMonth);
+            fclose(fileMonthTmp);
+            remove(cheminFinalTmp);
+            printf("\nAbonnement introuvable!\n");
+            return 1;
+        }
+
+        printf("Vous avez selectionne l'abonnement suivant : \n%s\n",buffer);
+        printf("Supression en cours...\n");
+        sleep(1.5);
+        printf("3\n");
+        sleep(1);
+        printf("2\n");
+        sleep(1);
+        printf("1\n");
+        sleep(1);
+        printf("Votre transaction a bien ete supprimer!\n\n");
+
+        tmp = fgets(buffer,500,fileMonth);
 
         while(tmp != NULL){
 
             fprintf(fileMonthTmp,buffer);
-            tmp = fgets(buffer,100,fileMonth);
+            tmp = fgets(buffer,500,fileMonth);
             
         }
 
-        printf("Vous avez selectionne l'abonnement suivant : \n%s\n",tmp);
+        fclose(fileMonthTmp);
+        fclose(fileMonth);
+        return 0;
     }else{
 
         printf("echec");

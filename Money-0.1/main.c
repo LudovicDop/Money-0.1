@@ -40,11 +40,14 @@ int main(int argc, const char * argv[]) {
             finalName = concat(login, extension);
 
             if(reading(finalName,login,1) != NULL){
+                
+                    char choice2 = ' ';
                     updateMonth(login);
                     update(login);
                     reading(finalName,login,0);
-                    char choice2 = ' ';
+
                 do{
+
                         printf("\nDo you want to add something ? (Y/N) or (x) or (r) or (s)\n");
                         scanf("%s",&choice2);
                         if(choice2 == 'y' || choice2 == 'Y'){
@@ -78,6 +81,9 @@ int main(int argc, const char * argv[]) {
                         printf("Somme : ");
                         scanf("%d",&somme);
                         month(nom,date,somme,login);
+                        updateMonth(login);
+                        update(login);
+                        reading(finalName,login,0);
                     }
                     if(choice2 == 'r' || choice2 == 'R'){
                         int numeroDeLaTransactionASupr;
