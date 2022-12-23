@@ -34,5 +34,6 @@ int putInOrder(date dateDeDebut,date dateDeFin);
 int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
 int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr);
 int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement);
+int validationTransaction(char *usr,int numeroDeLaTransactionAverifier);
 
 #endif /* moneyMainFunction_h */

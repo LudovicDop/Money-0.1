@@ -48,27 +48,28 @@ int main(int argc, const char * argv[]) {
 
                 do{
 
-                        printf("\nDo you want to add something ? (Y/N) or (x) or (r) or (s)\n");
-                        scanf("%s",&choice2);
-                        if(choice2 == 'y' || choice2 == 'Y'){
+                    printf("\nDo you want to add something ? (Y/N)\n\nAjouter un abonnement (x)\nSupprimer une transaction (r)\nSupprimer un abonnement (s)\nVerifier une transaction (o)\n");
 
-                            int money;
-                            char why[500];
+                    scanf("%s",&choice2);
+                    if(choice2 == 'y' || choice2 == 'Y'){
 
-                            printf("How much :  ");
-                            scanf("%d", &money);
-                            FLUSH
-                            printf("Comment : ");
+                        int money;
+                        char why[500];
 
-                            if(fgets(why, MAX_NAME_SIZE, stdin)){
-                            
-                                strremove(why, "\n");
-                            }else{
+                        printf("How much :  ");
+                        scanf("%d", &money);
+                        FLUSH
+                        printf("Comment : ");
 
-                                printf("error");
-                            }
-                            
-                            addAmount(finalName,login,money,why,0);
+                        if(fgets(why, MAX_NAME_SIZE, stdin)){
+                        
+                            strremove(why, "\n");
+                        }else{
+
+                            printf("error");
+                        }
+                        
+                        addAmount(finalName,login,money,why,0);
                     }
                     if(choice2 == 'x' || choice2 == 'X'){
                         char nom[100];
@@ -96,6 +97,12 @@ int main(int argc, const char * argv[]) {
                         printf("Quelle abonnement souhaitez-vous supprimer ? \n");
                         scanf("%d",&numeroDeLAbonnement);
                         removeSomethingAbonnement(login,numeroDeLAbonnement);
+                    }
+                    if(choice2 == 'o' || choice2 == 'O'){
+                        int numeroDeLaTransactionAVerifier;
+                        printf("Quelle transaction voulez-vous faire verifier ? \n");
+                        scanf("%d",&numeroDeLaTransactionAVerifier);
+                        validationTransaction(login,numeroDeLaTransactionAVerifier);
                     }
                 }while(choice2 != 'N' && choice2 != 'n');   
             }

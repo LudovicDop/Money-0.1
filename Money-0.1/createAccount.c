@@ -692,6 +692,11 @@ void updateMonth(char *usr){
 
         strcpy(test[i].numeroDeTransaction,numeroDeTransactionFinal);
         }
+        
+        free(tmpfgets);
+        free(fgetsNumeroDeLaTransaction);
+        free(buffer);
+        free(numeroDeTransactionFinal);
 
         fclose(fileAccount);
         fclose(fileTmp);
@@ -1054,3 +1059,108 @@ int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
     }
 
 }
+
+int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
+
+    /*Déclaration de mes variables*/
+    FILE *fileAccount,*fileTmp = NULL;
+    char extension[6] = ".txt";
+    char tmpFile[6] = "_tmp";
+    char finalTmpPath[150];
+    char chemin[200] = PATH;
+    char cheminFinal[250];
+    char *tmp = malloc(250);
+    char *buffer = malloc(150);
+    char tmpChar;
+    char haschtag[2] = "#";
+    int verificationDuNombreDeLigne = compteLesLignes(usr);
+    char *numeroDeTransaction = malloc(200);
+    char *transactionDejaVerifier = malloc(200);
+
+    /*Initialisation de mes variables*/
+    strcpy(cheminFinal,concat(chemin,usr));
+    strcpy(cheminFinal,concat(cheminFinal,extension));
+
+    sprintf(numeroDeTransaction,"%d",numeroDeLaTransactionAverifier);
+    strcpy(numeroDeTransaction,concat(haschtag,numeroDeTransaction));
+    strcpy(numeroDeTransaction,concat(numeroDeTransaction,haschtag));
+
+    strcpy(finalTmpPath,concat(chemin,usr));
+    strcpy(finalTmpPath,concat(finalTmpPath,tmpFile));
+    strcpy(finalTmpPath,concat(finalTmpPath,extension));
+
+    strcpy(transactionDejaVerifier,concat(numeroDeTransaction,"!"));
+
+    fileAccount = fopen(cheminFinal,"r");
+    fileTmp = fopen(finalTmpPath,"w");
+
+    if(numeroDeLaTransactionAverifier == 0){
+
+        printf("Impossible de verifier cette transaction!\n");
+        fclose(fileAccount);
+        fclose(fileTmp);
+        remove(finalTmpPath);
+        return 1;
+    }
+
+    if(fileAccount && fileTmp){
+
+            tmp = fgets(buffer,200,fileAccount);
+            while(strstr(buffer,numeroDeTransaction) == NULL && tmp != NULL){
+            
+                fprintf(fileTmp,buffer);
+                tmp = fgets(buffer,200,fileAccount);
+            }
+
+            if(strstr(buffer,transactionDejaVerifier) != NULL){
+                printf("La transaction est deja verifier !\n");
+                fclose(fileAccount);
+                fclose(fileTmp);
+                remove(finalTmpPath);
+                return 1;
+            }
+
+            if(tmp == NULL){
+
+                printf("Le numero de cette transaction n existe pas!\n");
+                fclose(fileAccount);
+                fclose(fileTmp);
+                remove(finalTmpPath);
+                return 1;
+        
+            }
+
+            strcpy(buffer,strtok(buffer,"\n"));
+            strcpy(buffer,concat(buffer,"!"));
+            strcpy(buffer,concat(buffer,"\n"));
+            fprintf(fileTmp,buffer);
+            
+            tmp = fgets(buffer,200,fileAccount);
+            while(tmp != NULL && buffer != NULL){
+                tmp = fgets(buffer,200,fileAccount);
+                fprintf(fileTmp,buffer);
+            }
+        
+           printf("ici : %s\n",buffer);    
+
+           fclose(fileAccount);
+           fclose(fileTmp);
+           remove(cheminFinal);
+           rename(finalTmpPath,cheminFinal);
+
+           free(tmp);
+           free(buffer);
+           free(numeroDeTransaction);
+
+           return 0;  
+    }else{
+
+        printf("echec\n");
+        return 1;
+    }
+}
+
+
+
+
+
