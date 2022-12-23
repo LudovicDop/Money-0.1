@@ -9,3 +9,4 @@
 8456 =>  8575 + -119 ( Reason : Ceci viens de votre abonnement TEST pour une durée de 17 mois! ) 23/12/22 #10#
 8598 =>  8456 + 142 ( Reason : Ceci est encore un test ) 23/12/22 #11#
 8598 =>  8640 + -42 ( Reason : Suppression de la transaction 12 ) 23/12/22 #13#
+9913 =>  8598 + 1315 ( Reason : Ceci viens de votre abonnement LOL pour une durée de 263 mois! ) 23/12/22 #14#

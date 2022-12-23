@@ -382,6 +382,7 @@ int compteLesLignes(char *usr){
         char year[100];
         char name[100];
         char amount[100];
+        char numeroDeTransaction[100];
     };
 
     date2 test[100];
@@ -668,9 +669,34 @@ void updateMonth(char *usr){
             char *amountStr = strtok(tmp2," ");
             strcpy(test[amountI].amount,amountStr);
         }
+        /*Dans cette partie je recherche le numero de la transaction*/
+        rewind(fileAccount);
+        
+        char *tmpfgets = malloc(100);
+        char *fgetsNumeroDeLaTransaction = malloc(100);
+        char *buffer = malloc(100);
+        char *numeroDeTransactionFinal = malloc(100);
+        char tmpNumeroDeLaTransaction;
+    
+        for(int i = 0;i < verificationDesLignes1;i++){
 
-            fclose(fileAccount);
-            fclose(fileTmp);
+            tmpNumeroDeLaTransaction = ' ';
+            
+            while(tmpNumeroDeLaTransaction != '#'){
+
+                tmpNumeroDeLaTransaction = fgetc(fileAccount);
+            }
+
+        fgetsNumeroDeLaTransaction = fgets(buffer,100,fileAccount);
+        strcpy(numeroDeTransactionFinal,strtok(buffer,"#"));
+
+        strcpy(test[i].numeroDeTransaction,numeroDeTransactionFinal);
+
+        printf("ici : %s\n",numeroDeTransactionFinal);
+        }
+
+        fclose(fileAccount);
+        fclose(fileTmp);
         
         printf("Nombre d'abonnements mensuels : %d\n\n",verificationDesLignes1-1);
 
@@ -689,15 +715,14 @@ void updateMonth(char *usr){
             int xAmount[100];
             sscanf(test[i].amount,"%d",&xAmount[i]);
 
-            printf("** Subscription number %d : %d/%d/%d %s:%d$ **\n",i,xDay[i],xMonth[i],xYear[i],test[i].name,xAmount[i]);
+            printf("** Subscription number %s : %d/%d/%d %s:%d$ **\n",test[i].numeroDeTransaction,xDay[i],xMonth[i],xYear[i],test[i].name,xAmount[i]);
             
     
         }
     }
 
         fclose(fileAccount);
-        fclose(fileTmp);
-
+     
         free(s); 
         free(sTmp);    
         free(s2);  
