@@ -504,21 +504,30 @@ void updateMonth(char *usr){
 
     FILE *fileAccount,*fileTmp = NULL;
     char *chemin = PATH;
-    char param[13] = "_configMonth";
-    char paramTmp[16] = "_configMonthTmp";
+    char param[14] = "_configMonth";
+    char paramTmp[17] = "_configMonthTmp";
     char *extension = ".txt";
-     
-    char *s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
-    char *sTmp = concat(chemin, usr);
-    char *s2 = concat(s,param);
-    char *s2Tmp = concat(s, paramTmp);
-    char *s3 = concat(s2,extension);
-    char *s3Tmp = concat(s2Tmp, extension);
+
+
+    
+    char *s =  malloc(100);
+    char *sTmp =  malloc(100);
+    char *s2 = malloc(100);
+    char *s2Tmp =  malloc(100);
+    char *s3 =  malloc(100);
+    char *s3Tmp =  malloc(100);
+
+    s = concat(chemin, usr); //Concaténation du chemin puis du nom du fichier en question
+    sTmp = concat(chemin, usr);
+    s2 = concat(s,param);
+    s2Tmp = concat(s, paramTmp);
+    s3 = concat(s2,extension);
+    s3Tmp = concat(s2Tmp, extension);
     
     fileAccount = fopen(s3,"r");
     fileTmp = fopen(s3Tmp, "w");
     char tmp = fgetc(fileAccount);
-    char *string;
+
     while(tmp != ':'){
         tmp = fgetc(fileAccount);
     }
@@ -526,7 +535,7 @@ void updateMonth(char *usr){
     char tmp2[100];
     fgets(tmp2,100,fileAccount);
     
-    char d[] = "/";
+    char d[2] = "/";
     int i = 0;
     char *day = strtok(tmp2,d);
     rewind(fileAccount);
@@ -658,9 +667,6 @@ void updateMonth(char *usr){
 
             char *amountStr = strtok(tmp2," ");
             strcpy(test[amountI].amount,amountStr);
-            
-            //tmp = fgetc(fileAccount);
-        
         }
 
             fclose(fileAccount);
@@ -691,6 +697,13 @@ void updateMonth(char *usr){
 
         fclose(fileAccount);
         fclose(fileTmp);
+
+        free(s); 
+        free(sTmp);    
+        free(s2);  
+        free(s2Tmp);   
+        free(s3);
+        free(s3Tmp);   
 
         /*J'appel ma fonction addSubscription pour pouvoir mettre à jour les abonnements mensuels dans le compte correspondant*/
         addSubscription(usr);
@@ -931,6 +944,7 @@ int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
     char buffer[100];
     char *bufferNumeroAbonnementEnChar = malloc(100);
     char *tmp = malloc(200);
+    char nouveauNomApresRename[50];
     /*Initialisation du chemin vers le fichier des abonnements mensuels*/
     strcpy(cheminFinal,concat(chemin,usr));
     strcpy(cheminFinal,concat(cheminFinal,extension));
@@ -946,7 +960,15 @@ int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
     sprintf(bufferNumeroAbonnementEnChar,"%d",numeroDeLAbonnement);
     strcpy(bufferNumeroAbonnementEnChar,concat("#",bufferNumeroAbonnementEnChar));
     strcpy(bufferNumeroAbonnementEnChar,concat(bufferNumeroAbonnementEnChar,"#"));
-   
+    
+    strcpy(nouveauNomApresRename,concat(usr,extension));
+
+    if(numeroDeLAbonnement == 0){
+        fclose(fileMonth);
+        fclose(fileMonthTmp);
+        printf("Vous ne pouvez pas supprimer ceci !\n");
+        return 1;
+    }
     /*Je vérifie si le fichier est bien ouvert*/
     if(fileMonth && fileMonthTmp){
         
@@ -999,6 +1021,9 @@ int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement){
 
         fclose(fileMonthTmp);
         fclose(fileMonth);
+
+        remove(cheminFinal);
+        rename(cheminFinalTmp,cheminFinal);
         return 0;
     }else{
 

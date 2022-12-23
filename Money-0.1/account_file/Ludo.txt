@@ -1,5 +1,11 @@
 1000 #0#
-2023 =>  2078 + -55 ( Reason : Ceci viens de votre abonnement NETFLIX pour une durée de 11 mois! ) 20/12/22 #4#
-1923 =>  2213 + -290 ( Reason : Suppression de la transaction 10 ) 20/12/22 #11#
-2065 =>  1923 + 142 ( Reason : Coincidence je ne pense pas ) 21/12/22 #12#
-2065 =>  2165 + -100 ( Reason : Suppression de la transaction 13 ) 21/12/22 #14#
+1100 =>  1000 + 100 ( Reason : test ) 23/12/22 #1#
+1100 =>  1155 + -55 ( Reason : Suppression de la transaction 2 ) 23/12/22 #3#
+1200 =>  1100 + 100 ( Reason : test ) 23/12/22 #4#
+1200 =>  2515 + -1315 ( Reason : Suppression de la transaction 5 ) 23/12/22 #6#
+1300 =>  1200 + 100 ( Reason : test ) 23/12/22 #7#
+2000 =>  1300 + 700 ( Reason : encore un test ) 23/12/22 #8#
+8575 =>  2000 + 6575 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 263 mois! ) 23/12/22 #9#
+8456 =>  8575 + -119 ( Reason : Ceci viens de votre abonnement TEST pour une durée de 17 mois! ) 23/12/22 #10#
+8598 =>  8456 + 142 ( Reason : Ceci est encore un test ) 23/12/22 #11#
+8598 =>  8640 + -42 ( Reason : Suppression de la transaction 12 ) 23/12/22 #13#
