@@ -691,8 +691,6 @@ void updateMonth(char *usr){
         strcpy(numeroDeTransactionFinal,strtok(buffer,"#"));
 
         strcpy(test[i].numeroDeTransaction,numeroDeTransactionFinal);
-
-        printf("ici : %s\n",numeroDeTransactionFinal);
         }
 
         fclose(fileAccount);
