@@ -1141,19 +1141,25 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
             strcpy(newBufferTmp,strtok(newBufferTmp,"\n"));
             strcpy(newBufferTmp,concat(newBufferTmp,"!"));
             strcpy(newBufferTmp,concat(newBufferTmp,"\n"));
-            fprintf(fileTmp,newBufferTmp);
+            
             tmp = fgets(buffer,200,fileAccount);
+
+            if(tmp == NULL){
+    
+                strcpy(newBufferTmp,strtok(newBufferTmp,"\n"));
+                fprintf(fileTmp,newBufferTmp);
+             }
+
+            if(tmp != NULL)fprintf(fileTmp,newBufferTmp);
+            
             while(tmp != NULL){
+
                 fprintf(fileTmp,buffer);
                 tmp = fgets(buffer,200,fileAccount);
                 
             }
 
-            // strcpy(buffer,strtok(buffer,"\n"));
-            // fprintf(fileTmp,buffer);
-            
-        
-           printf("ici : %s\n",buffer);    
+           printf("La verification de la transaction a bien ete effectuee!\n",buffer);    
 
            fclose(fileAccount);
            fclose(fileTmp);

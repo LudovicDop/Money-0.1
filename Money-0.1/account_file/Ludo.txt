@@ -1,5 +1,16 @@
 1400 #0#
-1442 =>  1400 + 42 ( Reason : ecole 42 ) 25/12/22 #1#
+1442 =>  1400 + 42 ( Reason : ecole 42 ) 25/12/22 #1#!
 1542 =>  1442 + 100 ( Reason : Ceci est un test ) 25/12/22 #2#!
 1787 =>  1542 + 245 ( Reason : Test ) 25/12/22 #3#!
 1710 =>  1787 + -77 ( Reason : Ceci viens de votre abonnement DISNEY pour une durée de 11 mois! ) 25/12/22 #4#!
+1715 =>  1710 + 5 ( Reason : test ) 25/12/22 #5#!
+1720 =>  1715 + 5 ( Reason : test ) 25/12/22 #6#!
+1725 =>  1720 + 5 ( Reason : test ) 25/12/22 #7#!
+1742 =>  1725 + 17 ( Reason : eee ) 25/12/22 #8#!
+1747 =>  1742 + 5 ( Reason : test ) 25/12/22 #9#!
+1752 =>  1747 + 5 ( Reason : tt ) 25/12/22 #10#!
+1757 =>  1752 + 5 ( Reason : test ) 25/12/22 #11#
+1762 =>  1757 + 5 ( Reason : test ) 25/12/22 #12#!
+1767 =>  1762 + 5 ( Reason : test ) 25/12/22 #13#!
+1771 =>  1767 + 4 ( Reason : test ) 25/12/22 #14#!
+1786 =>  1771 + 15 ( Reason : test ) 25/12/22 #15#
