@@ -194,12 +194,9 @@ char *reading(char *nameAccount,char *usr,int silentMode)
         printf("             %s do you have => %s $\n\n",usr,tmp);
         }
 
-        fclose(fileAccount); //MODIF ICI
-
-        //free(name);
+        fclose(fileAccount); 
 
         return tmp;
-        
     }
     
 }
@@ -526,7 +523,7 @@ void updateMonth(char *usr){
     s3Tmp = concat(s2Tmp, extension);
     
     fileAccount = fopen(s3,"r");
-    fileTmp = fopen(s3Tmp, "w");
+    fileTmp = fopen(s3Tmp, "w+");
     char tmp = fgetc(fileAccount);
 
     while(tmp != ':'){
@@ -722,8 +719,9 @@ void updateMonth(char *usr){
             
     
         }
+        fclose(fileAccount);
     }
-
+        fclose(fileTmp);
         fclose(fileAccount);
      
         free(s); 
@@ -741,11 +739,11 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
     /*Déclaration de mes variables*/
     FILE *fileMonth,*fileMonthTmp;
     date dateDeDepart,dateDeFin;
-    char chemin[58] = PATH;
+    char chemin[200] = PATH;
     char extension[18] = "_configMonth.txt";
     char extensionTmp[21] = "_configMonthTmp.txt";
-    char cheminFinalPourFopen[100];
-    char cheminFinalPourFopenTmp[100];
+    char *cheminFinalPourFopen = malloc(200);
+    char *cheminFinalPourFopenTmp = malloc(200);
     char buffer[151];
     char *nameTmpConfigMonth;
     char delimiteur[2] = ":";
@@ -832,6 +830,12 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
 
     /*Je libère la mémoire*/
     free(fgetsBuffer);
+    free(nameTmpConfigMonth);
+    free(dateTmpConfigMonth);
+    free(moneyTmpConfigMonth);
+    free(finalTmpConfigMonth);
+    free(currentDateLastUpdate);
+    free(nomFinalNew);
     /*Je ferme le fichier*/
     fclose(fileMonthTmp);
     fclose(fileMonth);
@@ -847,7 +851,9 @@ void mettreAJourLesAbonnementsMensuelsDates(char *usr,char *dateActuelle,char *d
    
     }else{
         //exit(EXIT_FAILURE);
-        printf("echec! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
+        fprintf(stderr,"Errno : %d\n",errno);
+        perror("Error msg");
+        printf("echec!! rename %s %s\n",cheminFinalPourFopenTmp,cheminFinalPourFopen);
     }
 }
 /*Cette fonction permet de supprimer une transaction cibler dans le compte courant de l'utilisateur X*/
@@ -1076,6 +1082,7 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
     int verificationDuNombreDeLigne = compteLesLignes(usr);
     char *numeroDeTransaction = malloc(200);
     char *transactionDejaVerifier = malloc(200);
+    char *newBufferTmp = malloc(200);
 
     /*Initialisation de mes variables*/
     strcpy(cheminFinal,concat(chemin,usr));
@@ -1130,16 +1137,21 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
         
             }
 
-            strcpy(buffer,strtok(buffer,"\n"));
-            strcpy(buffer,concat(buffer,"!"));
-            strcpy(buffer,concat(buffer,"\n"));
-            fprintf(fileTmp,buffer);
+            strcpy(newBufferTmp,buffer);
+            strcpy(newBufferTmp,strtok(newBufferTmp,"\n"));
+            strcpy(newBufferTmp,concat(newBufferTmp,"!"));
+            strcpy(newBufferTmp,concat(newBufferTmp,"\n"));
+            fprintf(fileTmp,newBufferTmp);
             
-            tmp = fgets(buffer,200,fileAccount);
-            while(tmp != NULL && buffer != NULL){
+            while(tmp != NULL){
+
                 tmp = fgets(buffer,200,fileAccount);
                 fprintf(fileTmp,buffer);
             }
+
+            // strcpy(buffer,strtok(buffer,"\n"));
+            // fprintf(fileTmp,buffer);
+            
         
            printf("ici : %s\n",buffer);    
 
@@ -1151,6 +1163,7 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
            free(tmp);
            free(buffer);
            free(numeroDeTransaction);
+           free(newBufferTmp);
 
            return 0;  
     }else{
