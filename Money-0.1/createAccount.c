@@ -1142,11 +1142,11 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
             strcpy(newBufferTmp,concat(newBufferTmp,"!"));
             strcpy(newBufferTmp,concat(newBufferTmp,"\n"));
             fprintf(fileTmp,newBufferTmp);
-            
+            tmp = fgets(buffer,200,fileAccount);
             while(tmp != NULL){
-
-                tmp = fgets(buffer,200,fileAccount);
                 fprintf(fileTmp,buffer);
+                tmp = fgets(buffer,200,fileAccount);
+                
             }
 
             // strcpy(buffer,strtok(buffer,"\n"));
