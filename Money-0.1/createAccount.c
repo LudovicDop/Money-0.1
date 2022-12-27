@@ -1233,11 +1233,6 @@ int suprValidationTransaction(char *usr,int numeroDeLaTransactionASupr){
             return 1;
         }
 
-        strcpy(newTmp,strtok(tmp,"!"));
-        strcpy(newTmp,concat(newTmp,"\n"));
-        fprintf(fileTmp,newTmp);
-        
-
         if(strstr(tmp,intToCharNumero) == NULL){
             printf("Ce numero de transaction n existe pas!\n");
             fclose(file);
@@ -1245,8 +1240,19 @@ int suprValidationTransaction(char *usr,int numeroDeLaTransactionASupr){
             remove(cheminFinalTmp);
             return 1;
         }
+        
+        strcpy(newTmp,strtok(tmp,"!"));
+        strcpy(newTmp,concat(newTmp,"\n"));
 
         gets = fgets(tmp,500,file);
+
+        if(gets == NULL){
+            strcpy(newTmp,strtok(newTmp,"\n"));
+        }
+
+        fprintf(fileTmp,newTmp);
+    
+        //gets = fgets(tmp,500,file);
 
         while(gets != NULL){
 
@@ -1260,6 +1266,14 @@ int suprValidationTransaction(char *usr,int numeroDeLaTransactionASupr){
         fclose(fileTmp);
         remove(cheminFinal);
         rename(cheminFinalTmp,cheminFinal);
+
+        free(cheminFinal);
+        free(cheminFinalTmp);
+        free(intToCharNumero);
+        free(gets);
+        free(tmp);
+        free(newTmp);
+
         return 0;
     }
     else{
