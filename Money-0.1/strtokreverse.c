@@ -8,8 +8,8 @@ L'objectif de cette fonction est la même que pour un strtok classique mais dans
 void strtokReverse(char *stringAModifSource,char *adresseDest,char delimiteur,int incluOuNonDelimiteur){
         
         /*Déclaration & Initialisation de mes variables*/
-        char *stringAModifSourceCar = malloc(sizeof(stringAModifSource));
-        char *adresseDestCar = malloc(sizeof(adresseDest));
+        char *stringAModifSourceCar = malloc(sizeof(stringAModifSource)+1);
+        char *adresseDestCar = malloc(sizeof(adresseDest)+1);
 
         /*On place les pointeurs sur la premier caractère*/
         stringAModifSourceCar = &stringAModifSource[0];

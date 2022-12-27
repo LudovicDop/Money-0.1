@@ -35,5 +35,5 @@ int diffMonth(date dateLaPlusAncienne,date dateLaPlusRecente);
 int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr);
 int removeSomethingAbonnement(char *usr,int numeroDeLAbonnement);
 int validationTransaction(char *usr,int numeroDeLaTransactionAverifier);
-
+int suprValidationTransaction(char *usr,int numeroDeLaTransactionASupr);
 #endif /* moneyMainFunction_h */

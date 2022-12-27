@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
 
                 do{
 
-                    printf("\nDo you want to add something ? (Y/N)\n\nAjouter un abonnement (x)\nSupprimer une transaction (r)\nSupprimer un abonnement (s)\nVerifier une transaction (o)\n");
+                    printf("\nDo you want to add something ? (Y/N)\n\nAjouter un abonnement (x)\nSupprimer une transaction (r)\nSupprimer un abonnement (s)\nVerifier une transaction (o)\nSuppression d'une validation (z)\n");
 
                     scanf("%s",&choice2);
                     if(choice2 == 'y' || choice2 == 'Y'){
@@ -103,6 +103,12 @@ int main(int argc, const char * argv[]) {
                         printf("Quelle transaction voulez-vous faire verifier ? \n");
                         scanf("%d",&numeroDeLaTransactionAVerifier);
                         validationTransaction(login,numeroDeLaTransactionAVerifier);
+                    }
+                    if(choice2 == 'z' || choice2 == 'Z'){
+                        int numeroDeLaTransactionAVerifierSupr;
+                        printf("Quelle transaction voulez-vous faire supprimer de la verification ?\n");
+                        scanf("%d",&numeroDeLaTransactionAVerifierSupr);
+                        suprValidationTransaction(login,numeroDeLaTransactionAVerifierSupr);
                     }
                 }while(choice2 != 'N' && choice2 != 'n');   
             }

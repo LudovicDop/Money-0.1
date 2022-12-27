@@ -251,7 +251,8 @@ void addAmount(char *nameAccount,char *usr,int amountAdd,char *why,int silentMod
     char *name;
     name = nameAccount;
     
-    char *tmp = reading(nameAccount, usr,silentMode);
+    char *tmp = malloc(500);
+    tmp = reading(nameAccount, usr,silentMode);
     char *tmp2 = malloc(500);
     strcpy(tmp2,lectureDeLaDerniereLigne(usr));
     FILE *fileAccount = NULL;
@@ -869,10 +870,16 @@ int removeSomethingCurrentAccount(char *usr,int numeroDeLaTransactionASupr){
     char tmpName[7] = "__tmp";
     char *valeurASoustraireEnChar = malloc(500);
     int valeurASoustraire;
-    char *nomApresRenameNormal = malloc(20);
+    char *nomApresRenameNormal = malloc(100);
     char *finalNameWithExtension = malloc(100);
     char msgDeSuppression[100] = "Suppression de la transaction ";
     char numeroDeLaTransactionEnChar[100];
+
+    if(numeroDeLaTransactionASupr == 0){
+        printf("Impossible de supprimer cette transaction!\n");
+        return 1;
+    }
+
 
     /*J'initialise le chemin vers le bon fichier*/
     strcpy(cheminFinal,concat(chemin,usr));
@@ -1179,7 +1186,87 @@ int validationTransaction(char *usr,int numeroDeLaTransactionAverifier){
     }
 }
 
+int suprValidationTransaction(char *usr,int numeroDeLaTransactionASupr){
+    
+    /*Déclaration de mes variables*/
+    FILE *file,*fileTmp = NULL;
+    char chemin[200] = PATH;
+    char *cheminFinal = malloc(300);
+    char *cheminFinalTmp = malloc(300);
+    char extension[6] = ".txt";
+    char extensionTmp[10] = "_tmp.txt";
+    char *intToCharNumero = malloc(200);
+    char *gets = malloc(300);
+    char *tmp = malloc(300);
+    char *newTmp = malloc(300);
 
+
+    sprintf(intToCharNumero,"%d",numeroDeLaTransactionASupr);
+    strcpy(intToCharNumero,concat("#",intToCharNumero));
+    strcpy(intToCharNumero,concat(intToCharNumero,"#"));
+
+    /*Initialisation de mes variables*/
+    strcpy(cheminFinal,concat(chemin,usr));
+    strcpy(cheminFinal,concat(cheminFinal,extension));
+
+    strcpy(cheminFinalTmp,concat(chemin,usr));
+    strcpy(cheminFinalTmp,concat(cheminFinalTmp,extensionTmp));
+
+    /*Ouverture du fichier*/
+    file = fopen(cheminFinal,"r");
+    fileTmp = fopen(cheminFinalTmp,"w");
+
+    if(file && fileTmp){
+
+        gets = fgets(tmp,500,file);
+
+        while(strstr(tmp,intToCharNumero) == NULL && gets != NULL){
+            fprintf(fileTmp,tmp);
+            gets = fgets(tmp,500,file);
+        }
+
+        if(strstr(tmp,"!") == NULL){
+            printf("Cette transaction n est pas verifier!\n");
+            fclose(file);
+            fclose(fileTmp);
+            remove(cheminFinalTmp);
+            return 1;
+        }
+
+        strcpy(newTmp,strtok(tmp,"!"));
+        strcpy(newTmp,concat(newTmp,"\n"));
+        fprintf(fileTmp,newTmp);
+        
+
+        if(strstr(tmp,intToCharNumero) == NULL){
+            printf("Ce numero de transaction n existe pas!\n");
+            fclose(file);
+            fclose(fileTmp);
+            remove(cheminFinalTmp);
+            return 1;
+        }
+
+        gets = fgets(tmp,500,file);
+
+        while(gets != NULL){
+
+            fprintf(fileTmp,tmp);
+            gets = fgets(tmp,500,file);
+        }
+
+        printf("%s\n",tmp);
+
+        fclose(file);
+        fclose(fileTmp);
+        remove(cheminFinal);
+        rename(cheminFinalTmp,cheminFinal);
+        return 0;
+    }
+    else{
+
+        printf("error\n");
+    }
+}
 
 
 
